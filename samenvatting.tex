@@ -1,0 +1,39 @@
+\documentclass{2wn20summary}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{empty}
+	\newpage
+	
+	\section{Inleiding}
+	
+	Mocht je foutjes/opmerkingen/verbeteringen vinden, we zien ze graag op de \href{https://github.com/PHPirates/2WN20-summary/issues}{issue tracker}.
+	
+	\section{College 1}
+	\subsection{Floats}
+		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots +d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$.
+		
+		\begin{define}
+		Voor $n$ zijn in principe twee mogelijkheden, $n=24$ met $0<d_i<\beta, i=2,3,\dotsc ,n$ heet \indx{single precision}, $n=53$ met $0 \le d_i < \beta$ heet \indx{double precision}.
+		\end{define}
+		
+		\begin{define}
+			\[
+				\abs{\fl(x)-x} \le \frac{1}{2} \beta^{e-n} \text{ heet een \indx{absolute rounding error},}
+			\]
+			\[
+				
+			\]
+		\end{define}
+		
+		
+	
+%	\indx{test}
+	
+	\phantomsection
+	\newpage
+	\addcontentsline{toc}{chapter}{Index} 
+	\printindex
+	
+	
+\end{document} 
