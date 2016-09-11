@@ -11,10 +11,10 @@
 	
 	\section{College 1}
 	\subsection{Floats}
-		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots +d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$.
+		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots + d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$. Verder geldt $ 0 < d_1 < \beta $.
 		
 		\begin{define}
-		Voor $n$ zijn in principe twee mogelijkheden, $n=24$ met $0<d_i<\beta, i=2,3,\dotsc ,n$ heet \indx{single precision}, $n=53$ met $0 \le d_i < \beta$ heet \indx{double precision}.
+		Voor $n$ zijn in principe twee mogelijkheden, $n=24$ met $0<d_i<\beta, i=2,3,\dotsc ,n$ heet \indx{single precision}, $n=53$ met $0 \le d_i < \beta$ heet \indx{double precision}. 
 		\end{define}
 		
 		\begin{define}
@@ -22,13 +22,83 @@
 				\abs{\fl(x)-x} \le \frac{1}{2} \beta^{e-n} \text{ heet een \indx{absolute rounding error},}
 			\]
 			\[
-				
+				\epsilon = \frac{\fl(x) - x}{x} \implies \fl(x) = x(1 + \epsilon) \text{ heet \indx{relative rounding error},}
+			\]
+			\[ 
+				\abs{\epsilon} = \frac{\abs{\fl (x) - x}}{\abs{x}} \leq \beta^{1-n} \text{ heet \indx{machine precision}.}
 			\]
 		\end{define}
 		
+	\subsection{Rekenen met floats (ten opzichte van rekenen met de exacte waarde)}
+		\begin{define}
+			Rekenen met floats gaat als volgt, $ \fl (\fl (x) \circ \fl (y)) $ waar $ \circ \in \{+,-,\times, \div\} $. We bekijken het verschil met de exacte waarde. 
+			\begin{align*}
+				\abs{ x \circ y - \fl (\fl (x) \circ \fl (y)) } &= \abs{ x \circ y - \fl (x) \circ \fl (y) + \fl (x) \circ \fl (y) - \fl (\fl (x) \circ \fl (y))} \\
+				&\leq \abs{x \circ y - \fl (x) \circ \fl (y)} + \abs{\fl (x) \circ \fl (y) - \fl (\fl (x) \circ \fl (y))}.
+			\end{align*}
+			$ \abs{x \circ y - \fl (x) \circ \fl (y)} $ heet de \indx{transmission error} of \indx{doorwerkingsfout}. Deze heeft te maken met de afronding.
+			
+			$  \abs{\fl (x) \circ \fl (y) - \fl (\fl (x) \circ \fl (y))} $ heet de \indx{calculation error} of \indx{bewerkingsfout}.
+		\end{define}
 		
-	
-%	\indx{test}
+		\begin{note}
+			Voor optellen $ (+) $ en aftrekken $ (-) $ is de absolute error relevant. Voor vermenigvuldigen $ (\times) $ en delen $ (\div) $ is de relative error relevant.
+		\end{note}
+		
+	\subsection{\indx{Landau orde symbool}}
+		\begin{define}
+			$ f(x) = \bigO (g(x)) $ for $ x \to 0 $. Then there exist an $ M > 0, r>0 $ such that
+			\[ 
+				\forall_{x \in [-r,r]}:\abs{f(x)} \leq M \abs{g(x)}\,.
+			\]
+		\end{define}
+		
+		\begin{theorem}
+			Stel $ f(x) = \bigO(x^p), g(x) = \bigO(x^q) $ met $ p>0, q>0 $. Dan geldt het volgende:
+			\begin{enumerate}[(i)]
+				\item $ f(x) = \bigO(x^s) \qquad 0 \leq s < p $
+				\item $ \alpha f(x) + \beta g(x) = \bigO (x^{\min (p,q)}) $
+				\item $ f(x)g(x) = \bigO(x^{p+q}) $
+				\item $ \frac{f(x)}{x^s} = \bigO(x^{p-s}) \qquad 0 \leq s < p $.
+			\end{enumerate}
+		\end{theorem}
+		
+	\subsection{Taylorpolynoom}
+		\begin{theorem}
+			Stel $ f(x) \in C^{(n+1)}[a,b] $ met $ x \in (a,b) $ en $ c \in (a,b) $.	Dan is er een $ \xi $ tussen $x$ en $c$ zodanig dat
+			\begin{align*}
+				f(x) &= P_n(x) + R_n(x) \\ 
+				&= f(c) + (x-c)f'(c) + \frac{(x-c)^2}{2!}f''(c) + \dots + \frac{(x-c)^n}{n!}f^n(c) + \frac{(x-c)^{n+1}}{(n+1)!}f^{(n+1)}(\xi).
+			\end{align*}
+			We noemen dan $ \frac{(x-c)^{n+1}}{(n+1)!}f^{(n+1)}(\xi) $ de \indx{foutterm}\index{error Taylor polynomial}.
+		\end{theorem}
+
+	\newpage
+	\section{College 2}
+	\subsection{Interpolatie}
+		\begin{define}% TODO plaatje
+			Stel $ f(x) \in C[a,b] $ en $ x_0, x_1 \in (a,b) $, dan geldt voor het \indx{interpolatiepolynoom} $ p(x) $ dat
+			\begin{align*}
+				p(x) &= f(x_0) + \frac{f(x_1) - f(x_0)}{x_1 - x_0} \\
+					&= \frac{x-x_1}{x_0-x_1}f(x_0) + \frac{x-x_0}{x_1-x_0}f(x_1)\,.
+			\end{align*}
+		\end{define}
+		
+		\paragraph{Analyse fout in $ p(x) $}
+			\begin{theorem}
+				Voor het verschil tussen $ f(x) $ en $ p(x) $ geldt het volgende:
+				\[ 
+					f(x) - p(x) = \half (x-x_0)(x-x_1)f''(\xi) \qquad \xi \in (x_0,x,x_1)\,.
+				\]
+				Oftewel, $ \xi $ ligt in het open interval opgespannen door de uitersten van $ x_0, x, x_1 $ (we sluiten extrapolatie niet uit).
+			\end{theorem}
+			
+			Voor een verstoorde $f$ schrijven we $\hat{f}$. Definieer nu $ \epsilon_0 > 0 $ en $ \epsilon_1 > 0 $ de storing op $ f(x_0) $ en $ f(x_1) $ door $ \abs{\hat{f}(x_0) - f(x_0)}\leq \epsilon_0 $ en $ \abs{\hat{f}(x_1) - f(x_1)} \leq \epsilon_1 $, waarbij $ f(x_0) $ en $ f(x_1) $ de exacte waardes zijn. Definieer vervolgens $ \epsilon = \max (\epsilon_0, \epsilon_1) $. Dan volgt voor de verstoring op $ p(x) $
+			\[ 
+				\abs{\hat{p}(x) - p(x)} \leq \abs{\frac{x-x_1}{x_0-x_1}}\epsilon_0 + \abs{\frac{x-x_0}{x_1-x_0}}\epsilon_1 = \frac{\abs{x-x_1}\epsilon_0+\abs{x-x_0}\epsilon_1}{x_1-x_0} \leq \frac{\abs{x-x_1}+\abs{x-x_0}}{x_1-x_0}\epsilon\,.
+			\]
+			Voor interpolatie is $ \abs{\hat{p}(x) - p(x)} \leq \epsilon$. Voor extrapolatie is dit $ \abs{\hat{p}(x) - p(x)} \leq (1 + 2 \frac{\abs{x-x_1}}{x_1-x_0})\epsilon $. We zien dus dat interpolatie veilig is en de fout beperkt blijft. 
+		
 	
 	\phantomsection
 	\newpage

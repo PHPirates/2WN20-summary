@@ -82,7 +82,7 @@
 \newtheorem*{gevolg}{Gevolg}
 \newtheorem*{nota}{Notatie}
 \newtheorem*{valkuil}{\textcolor{red}{Valkuil}}
-\newtheorem*{note}{\textcolor{red}{Note}}
+\newtheorem*{note}{Note}
 
 \newtheorem*{toprove}{Te bewijzen}
 %% Credits to Sten
@@ -149,8 +149,16 @@
 %Riemann multi-variable
 \newcommand{\R}{\mathcal{R}}
 
+% Big-O
+\newcommand{\bigO}{\mathcal{O}}
+
 %Short colon
 \renewcommand{\:}{\colon}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\fourth}{\frac{1}{3}}
+\newcommand{\eigth}{\frac{1}{8}}
 
 %Macro's Maubach
 \def\set#1{\lbrace#1\rbrace}
