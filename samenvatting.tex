@@ -1,4 +1,5 @@
 \documentclass{2wn20summary}
+\usepackage{pgfplots}
 
 \begin{document}
 	\maketitle
@@ -76,12 +77,29 @@
 	\newpage
 	\section{College 2}
 	\subsection{Interpolatie}
-		\begin{define}% TODO plaatje
+		\begin{define}
 			Stel $ f(x) \in C[a,b] $ en $ x_0, x_1 \in (a,b) $, dan geldt voor het \indx{interpolatiepolynoom} $ p(x) $ dat
 			\begin{align*}
 				p(x) &= f(x_0) + \frac{f(x_1) - f(x_0)}{x_1 - x_0} \\
 					&= \frac{x-x_1}{x_0-x_1}f(x_0) + \frac{x-x_0}{x_1-x_0}f(x_1)\,.
 			\end{align*}
+			
+			\begin{tikzpicture}
+			\begin{axis}[
+				ylabel=$f(x)$,
+				ytick={2,4},
+				yticklabels={$f(x_0)$,$f(x_1)$},
+				xlabel={$x$},
+				xtick={0,2,4,8},
+				xticklabels={$a$,$x_0$,$x_1$,$b$}
+			]
+				\addplot[samples=200, red, domain=0:8]{3 + sin(deg(2*x)} node[below] {$f(x)$};
+				% p(x):
+				\addplot[samples=20, dashed, domain=0:2]{x};
+				\addplot[samples=20, domain=2:4]{x} node[above,pos=1]{$p(x)$};
+				\addplot[samples=20, dashed, domain=4:8]{x};
+			\end{axis}
+			\end{tikzpicture}
 		\end{define}
 		
 		\paragraph{Analyse fout in $ p(x) $}
@@ -99,6 +117,21 @@
 			\]
 			Voor interpolatie is $ \abs{\hat{p}(x) - p(x)} \leq \epsilon$. Voor extrapolatie is dit $ \abs{\hat{p}(x) - p(x)} \leq (1 + 2 \frac{\abs{x-x_1}}{x_1-x_0})\epsilon $. We zien dus dat interpolatie veilig is en de fout beperkt blijft. 
 		
+		\subsection{Lagrange interpolatie}
+			\begin{define}
+				Bij \indx{Lagrange interpolatie} is het interval waarover ge\"interpoleerd wordt verdeeld in $n$ deelintervallen. Het interpolatiepolynoom $ L_n(x) $ is gegeven door
+				\[ 
+					L_n(x) = \sum_{k=0}^n L_{kn} (x) f(x_k), \qquad \text{ met $ L_{kn}$ de \indx{Lagrange co\"efficienten}. }
+				\]
+				Deze Lagrange co\"efficienten worden gegeven door
+				\[ 
+					L_{kn}(x) = \frac{(x-x_0)(x-x_1)\dotsm(x-x_{k-1})(x-x_{k+1})\dotsm(x-x_n)}{(x_k-x_0)(x_k-x_1)\dotsm(x_k-x_{k-1})(x_k-x_{k+1})\dotsm(x_k-x_n)}\,.
+				\]
+				Er volgt $\begin{cases}
+				L_{kn}(x_j) = 1 & k = j \\
+				L_{kn}(x_j) \neq 1 & k \neq j
+				\end{cases} \ $.
+			\end{define}
 	
 	\phantomsection
 	\newpage

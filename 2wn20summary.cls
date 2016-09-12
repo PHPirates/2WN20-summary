@@ -155,11 +155,6 @@
 %Short colon
 \renewcommand{\:}{\colon}
 
-\newcommand{\half}{\frac{1}{2}}
-\newcommand{\third}{\frac{1}{3}}
-\newcommand{\fourth}{\frac{1}{3}}
-\newcommand{\eigth}{\frac{1}{8}}
-
 %Macro's Maubach
 \def\set#1{\lbrace#1\rbrace}
 \def\abs#1{{\left|#1\right|}}
