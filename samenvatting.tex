@@ -127,12 +127,32 @@
 				\[ 
 					L_{kn}(x) = \frac{(x-x_0)(x-x_1)\dotsm(x-x_{k-1})(x-x_{k+1})\dotsm(x-x_n)}{(x_k-x_0)(x_k-x_1)\dotsm(x_k-x_{k-1})(x_k-x_{k+1})\dotsm(x_k-x_n)}\,.
 				\]
-				Er volgt $\begin{cases}
-				L_{kn}(x_j) = 1 & k = j \\
-				L_{kn}(x_j) \neq 1 & k \neq j
+				Er volgt 
+				$\begin{cases}
+					L_{kn}(x_j) = 1 & k = j \\
+					L_{kn}(x_j) \neq 1 & k \neq j
 				\end{cases} \ $.
+				
+				Voor de fout (die wordt veroorzaakt door verstoringen in functiewaarden) geldt nu
+				\[ 
+					\abs{\hat{L}_n(x)-L_n(x)} \leq \sum_{k=0}^n \abs{L_{kn}(x)} \epsilon, \qquad \text{met } \epsilon = \max (\epsilon_0, \epsilon_1, \dotsc, \epsilon_n).
+				\]
 			\end{define}
+			\begin{note}
+				Lineaire interpolatie is Lagrange interpolatie voor $n=1$, oftewel \indx{eerste orde Lagrange interpolatie}.
+			\end{note}
 	
+		%TODO stuk tussen Lagrange and Cubic splines...
+		\subsection{Kubische splines (\indx{Cubic splines})}
+			
+			\begin{define}
+				\indx{Stuksgewijze interpolatie} houdt in dat het interval waarvoor we een interpolatiepolynoom willen beschrijven wordt opgedeeld in kleinere deelintervallen en we vervolgens voor elk deelinterval een interpolatiepolynoom beschrijven. Het gevolg hiervan is dat we knikken krijgen.
+			\end{define}
+			
+			\begin{define}
+				%TODO plaatje
+				We willen een interpolatiepolynoom beschrijven voor de functie $f(x)$ op het interval $(a,b)$. We delen het interval $(a,b)$ op in $n$ deelintervallen, $(x_0,x_1), \dotsc, (x_{n-1}, x_n)$. Op elk deelinterval beschrijven we een \indx{kubische spline}, $S_0, S_1, \dotsc, S_{n-1}$. 
+			\end{define}
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
