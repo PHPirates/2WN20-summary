@@ -152,6 +152,64 @@
 			\begin{define}
 				%TODO plaatje
 				We willen een interpolatiepolynoom beschrijven voor de functie $f(x)$ op het interval $(a,b)$. We delen het interval $(a,b)$ op in $n$ deelintervallen, $(x_0,x_1), \dotsc, (x_{n-1}, x_n)$. Op elk deelinterval beschrijven we een \indx{kubische spline}, $S_0, S_1, \dotsc, S_{n-1}$. 
+				\[ 
+					S_j(x) = a_j(x-x_j)^3 + b_j(x-x_j)^2 + c_j(x-x_j) + d_j, \qquad \text{met } j = 0, \dotsc, n-1\,.
+				\]
+				We hebben nu $n-1$ vergelijkingen, en dus $4n$ onbekenden. Om deze onbekenden te vinden, stellen we een aantal eisen/voorwaarden aan $ S_j(x) $.
+				\begin{align*}
+					\textbf{Functiewaarden: } &S_j(x_j) = f(x_j) \\
+						&S_{n-1}(x_n) = f(x_n) \\
+					\textbf{Aansluitvoorwaarden: } &S_j(x_{j+1}) = S_{j+1} (x_{j+1}) \\
+						&S_j '(x_{j+1}) = S_{j+1} ' (x_{j+1}) \\
+						&S_j '' (x_{j+1}) = S_{j+1} '' (x_{j+1}) \\
+					\textbf{\"Randvoorwaarden\": } &S_0 ''(x_0) = 0 \\
+						&S_{n-1} '' (x_n) = 0
+				\end{align*}
+			\end{define}
+			
+		\newpage
+		\section{College 3}
+		\subsection{\indx{Eindige differenties} (benaderen van afgeleiden)}
+		
+			\begin{tikzpicture}
+			\begin{axis}[
+			axis lines = left,
+			xmin=-2, xmax=2, ymin=-3.5, ymax=0.5,
+			ylabel=$f(x)$,
+			ytick={2,4},
+			yticklabels={$f(x_0)$,$f(x_1)$},
+			xlabel={$x$},
+			xtick={0,0.5},
+			xticklabels={$x$, $x+h$}
+			]
+				\addplot[samples=200]{-x^2};
+				\addplot[dashed] coordinates {(0,-3.5) (0,0)};
+				\addplot[dashed] coordinates {(0.5,-3.5) (0.5,-0.25)};
+				\addplot[] coordinates {(-0.75,0) (0.75,0)} node[above]{$f'(x)$};
+			\end{axis}
+			\end{tikzpicture}
+			
+			\begin{define}
+				De afgeleide van $ f(x) $ is gedefinieerd als $ f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{(x+h) - x} = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h} $. Voor een voorwaartse benadering van de afgeleide definieren we \index{Qv@$Q_v(x,h)$}
+				\[ 
+					Q_v(x,h) = \frac{f(x+h)-f(x)}{h}, \qquad \text{met $h$ eindig} \,.
+				\]
+				Het verschil tussen deze benadering en de werkelijke afgeleide noemen we de \indx{afbreekfout}. Deze is gegeven door
+				\[ 
+					f'(x) - Q_v(x,h) = f'(x) -  \frac{f(x+h)-f(x)}{h} = - \frac{h}{2} f ''(\xi), \qquad \text{voor } f \in C[x,x+h], \xi \in (x,h)\,.
+				\]
+				
+				Verder bekijken we de achterwaartse benadering \index{Qa@$Q_a(x,h)$}
+				\[ 
+					 Q_a(x,h) = \frac{f(x)-f(x-h)}{h}, \qquad \text{met $h$ eindig} ,
+				\]
+				met bijbehorende afbreekfout $ f'(x) - Q_a(x,h) = \frac{h}{2} f ''(\eta) $, $\eta \in (x-h,h)$.
+				
+				Tenslotte bekijken we de centrale benadering, wat het gemiddelde is van de voor- en achterwaartse benaderingen. \index{Qc@$Q_c(x,h)$}
+				\[ 
+					Q_c(x,h) = \half (Q_v(x,h) + Q_a(x,h)) = \frac{f(x+h)-f(x-h)}{2h}\,.
+				\]
+				De afbreekfout die volgt is $ f'(x) - Q_c(x,h) = \frac{-h^2}{6} f'''(\xi), \xi \in (x-h, x+h) $.
 			\end{define}
 	\phantomsection
 	\newpage
