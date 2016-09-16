@@ -211,6 +211,105 @@
 				\]
 				De afbreekfout die volgt is $ f'(x) - Q_c(x,h) = \frac{-h^2}{6} f'''(\xi), \xi \in (x-h, x+h) $.
 			\end{define}
+	
+	
+	\newpage
+	\section{College 4}
+		We bekijken differentiaalvergelijkingen van de vorm 
+		\[ 
+			y' = \frac{\d y}{\d t} = f(t,y) \,, y = y(t) \,, \text{ beginvoorwaarde } y(t_0) = y_0 \,,
+		 \]
+		 met $f(t,y),t_0,y_0$ gegeven.
+		 
+		 \begin{voorbeeld}
+		 	
+		 	$y'=\lambda y,\ y(t_0)=y(0)=y_0$ is nog exact op te lossen, en heeft als oplossing $y=y_0 e^{\lambda t}$. We kiezen hier voor het gemak $\lambda <0$, omdat we daardoor fysische stabiliteit garanderen.
+		 \end{voorbeeld}
+		 \begin{define}
+		 	$y'=f(t,y)$ is \indx{goed gesteld} \index{well posed}indien er een unieke oplossing $y=y(t)$ bestaat die continu afhangt van $y(t_0)=y_0$.
+		 	
+		 	Een karakterisering is 
+		 	\[ 
+			 	\abs{\frac{\partial f(t,y)}{\partial y}} \le L \in \reals \ \forall{t,y} \text{ in het te beschouwen rekendomein (t-waarden)}.
+		 	 \]
+		 	 Dit kennen we ook als \indx{Lipschitz-continu\"iteit}.
+		 \end{define}
+		 
+		 \begin{define}
+		 	We noemen $y'=f(t,y)$ de \indx{differentiaalvorm}, $y(t_0) = y_0$. Dit is om te vormen in $y(t) = y_0 + \int_{t_0}^t f(\tau,y) \d \tau$, de \indx{integraalvorm} (impliciet).
+		 \end{define}			
+		 
+		 \subsection{Numerieke methoden voor differentiaalvergelijkingen}
+		 \subsubsection{Voorwaarts Euler (instabiel)}
+			 We benaderen $y(t) \approx y_0 + h f(t_0,y_0)$ met $h=t-t_0$, stukgewijs. Dus $y(t_1) \approx y_0 + h f(t_0,y_0) = w_1$, $y(t_1)$ is de exacte oplossing en $w_1$ de numerieke, en $w_2 = w_1 + h f(t_1,w_1)$, enzovoort.
+			 
+			 Algemener geldt dan $w_{j+1}+h f(t_j,w_j)$ met $h=t_{j+1}-t_j$, dit is dus een expliciete formule.
+		\subsubsection{Achterwaarts Euler (iets stabieler)}
+			Hier geldt de impliciete formule 
+			\[ 
+				w_{j+1} = w_j + h f(t_{j+1},w_{j+1}) \,.
+			 \]
+		\subsubsection{Trapeziumregel}
+			Weer een impliciete formule
+			\[ 
+				w_{j+1} = w_j + \frac{h}{2} ( f(t_j,w_j) + f(t_{j+1},w_{j+1})) \,.
+			 \]
+		\subsubsection{Modified Euler}
+			Dit is een expliciete vorm van de trapeziumregel. Het doet eerst een voorspelling met voorwaarts Euler, $\overline w_{j+1} = w_j + h f(t_j,w_j)$. Dan volgt een correctiestap $w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1},\overline w_{j+1}))$ .
+			
+		\subsection{Versterkingsfactoren van de methoden}
+			toegepast op $y'=\lambda y,\ y(t_0) = y_0$.
+			\paragraph{Voorwaarts Euler} 
+				\begin{define}
+				Er geldt dus $w_{j+1} = w_j + h \lambda w_j = (1+\lambda h) w_j$, waarbij de \indx{versterkingsfactor} $Q(\lambda,h) = 1+\lambda h$.
+				\end{define}
+			Je kunt nagaan dat de andere versterkingsfactoren respectievelijk 
+			\[ 
+				\frac{1}{1-\lambda h},\ \frac{1+\frac{h}{2}\lambda}{1-\frac{h}{2}\lambda},\ 1+h\lambda + \frac{1}{2} (h\lambda)^2
+				\]
+				zijn.
+				
+		\subsection{Verstoringen in beginwaarden}
+			\begin{define}
+			Gegeven de vergelijkingen
+			\begin{align}
+				y'=\lambda y,\ & y(t_0) = y_0 \\
+				\hat y' = \lambda \hat y,\ & \hat y (t_0) = \hat y_0
+			\end{align}
+			met $\epsilon_0 = \hat y_0 - y_0$ als verstoring in beginvoorwaarde, dan volgt uit $(2)-(1)$
+			\[ 
+				\hat y' - y'=\lambda (\hat y-y) \implies \epsilon'=\lambda \epsilon,\ \epsilon(t_0) = \epsilon_0 
+			 \]
+			 waarbij $\epsilon'=\lambda \epsilon$ de \indx{evolutievergelijking} voor de verstoring is.
+			 \end{define}
+			 
+			 %todo?
+			 
+		\subsection{\indx{Local truncation error} }
+			\begin{define}
+			De \indx{lokale afbreekfout} $\tau_{j+1}=\frac{y_{j+1}-z_{j+1}}{h}$ met $z_{j+1}$ de numerieke oplossing uitgaande van de exacte oplossing.
+			\end{define}
+			
+			%todo
+			
+			\begin{define}
+				
+				$e_{j+1}=w_{j+1}-y_{j+1}$ is de \indx{lokale discretisatiefout} (de fout in de oplossing).
+			\end{define}
+			$\tau_{j+1}$ is een maat voor de fout in de evaluatie.
+		
+			
+				
+						 
+	\section{College 5}
+	
+	\section{College 6}
+	
+	\section{College 7}
+	
+	\section{College 8}
+			 
+			 
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
