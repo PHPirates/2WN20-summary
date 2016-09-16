@@ -10,6 +10,8 @@
 	
 	Mocht je foutjes/opmerkingen/verbeteringen vinden, we zien ze graag op de \href{https://github.com/PHPirates/2WN20-summary/issues}{issue tracker}.
 	
+	Het boek waar naar verwezen wordt is \textbf{Numerical Methods for Ordinary Differential Equations}, \textit{C.~Vuik, F.J. Vermolen, M.B. van Gijzen, M.J. Vuik}.
+	
 	\section{College 1}
 	\subsection{Floats}
 		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots + d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$. Verder geldt $ 0 < d_1 < \beta $.
@@ -211,6 +213,22 @@
 				\]
 				De afbreekfout die volgt is $ f'(x) - Q_c(x,h) = \frac{-h^2}{6} f'''(\xi), \xi \in (x-h, x+h) $.
 			\end{define}
+			
+			\begin{define}
+				De \indx{afrondfout} \index{rounding error} voor $ Q_c(x,h) $ is gegeven door
+				\[ 
+					\abs{Q_c(x,h) - \hat{Q}_c(x,h)} = \abs{\frac{f(x+h)-f(x-h)}{2h}- \frac{\hat{f}(x+h) - \hat{f}(x-h)}{2h}} \leq \frac{\epsilon_1 + \epsilon_2}{2h} \leq \frac{\epsilon}{h}, \qquad \epsilon = \max (\epsilon_1, \epsilon_2)\,.
+				\]
+				De \indx{totale fout} is de afbreekfout plus de afrondfout. Voor $ Q_c(x,h) $ is dit dus
+				\[ 
+					\abs{\frac{-h^2}{6}f'''(\xi)} + \frac{\epsilon}{2} \leq \frac{h^2}{6}\max\abs{f'''(\xi)}+ \frac{\epsilon}{2}\,.					
+				\]
+				Verder geldt afrondfout $ = \bigO(h^{-1}) $ en afbreekfout $ = \bigO(h^2) $. Dit betekent dat als $h$ groter wordt de afrondfout kleiner wordt, maar de afbreekfout groter. Er is dus een optimale $h$ waarvoor de totale fout minimaal is.
+			\end{define}
+			
+		\subsection{Richardson extrapolatie}
+			\indx{Richardson extrapolatie} is een praktische manier om afbreekfouten te schatten zonder gebruik te maken van afgeleiden van $ f(x) $. Zie boek 3.7 page 33.
+			
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
