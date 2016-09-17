@@ -198,12 +198,12 @@
 				\]
 				Het verschil tussen deze benadering en de werkelijke afgeleide noemen we de \indx{afbreekfout}. Deze is gegeven door
 				\[ 
-					f'(x) - Q_v(x,h) = f'(x) -  \frac{f(x+h)-f(x)}{h} = - \frac{h}{2} f ''(\xi), \qquad \text{voor } f \in C[x,x+h], \xi \in (x,h)\,.
+					f'(x) - Q_v(x,h) = f'(x) -  \frac{f(x+h)-f(x)}{h} = - \frac{h}{2} f ''(\xi), \qquad \text{voor } f \in C[x,x+h], \xi \in (x,x+h)\,.
 				\]
 				
 				Verder bekijken we de achterwaartse benadering \index{Qa@$Q_a(x,h)$}
 				\[ 
-					 Q_a(x,h) = \frac{f(x)-f(x-h)}{h}, \qquad \text{met $h$ eindig} ,
+					 Q_a(x,h) = \frac{f(x)-f(x-h)}{h} \qquad \text{met $h$ eindig} ,
 				\]
 				met bijbehorende afbreekfout $ f'(x) - Q_a(x,h) = \frac{h}{2} f ''(\eta) $, $\eta \in (x-h,h)$.
 				
@@ -221,9 +221,9 @@
 				\]
 				De \indx{totale fout} is de afbreekfout plus de afrondfout. Voor $ Q_c(x,h) $ is dit dus
 				\[ 
-					\abs{\frac{-h^2}{6}f'''(\xi)} + \frac{\epsilon}{2} \leq \frac{h^2}{6}\max\abs{f'''(\xi)}+ \frac{\epsilon}{2}\,.					
+					\abs{\frac{-h^2}{6}f'''(\xi)} + \frac{\epsilon}{h} \leq \frac{h^2}{6}\max\abs{f'''(\xi)}+ \frac{\epsilon}{h}\,.					
 				\]
-				Verder geldt afrondfout $ = \bigO(h^{-1}) $ en afbreekfout $ = \bigO(h^2) $. Dit betekent dat als $h$ groter wordt de afrondfout kleiner wordt, maar de afbreekfout groter. Er is dus een optimale $h$ waarvoor de totale fout minimaal is.
+				Verder geldt dat de afrondfout $ = \bigO(h^{-1}) $ en de afbreekfout $ = \bigO(h^2) $. Dit betekent dat als $h$ groter wordt de afrondfout kleiner wordt, maar de afbreekfout groter. Er is dus een optimale $h$ waarvoor de totale fout minimaal is.
 			\end{define}
 			
 		\subsection{Richardson extrapolatie}
