@@ -258,7 +258,7 @@
 			Dit is een expliciete vorm van de trapeziumregel. Het doet eerst een voorspelling met voorwaarts Euler, $\overline w_{j+1} = w_j + h f(t_j,w_j)$. Dan volgt een correctiestap $w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1},\overline w_{j+1}))$ .
 			
 		\subsection{Versterkingsfactoren van de methoden}
-			toegepast op $y'=\lambda y,\ y(t_0) = y_0$.
+			Toegepast op $y'=\lambda y,\ y(t_0) = y_0$.
 			\paragraph{Voorwaarts Euler} 
 				\begin{define}
 				Er geldt dus $w_{j+1} = w_j + h \lambda w_j = (1+\lambda h) w_j$, waarbij de \indx{versterkingsfactor} $Q(\lambda,h) = 1+\lambda h$.
@@ -305,7 +305,7 @@
 			 	 	\[ 
 				 	 	\frac{\partial f}{\partial y}(t_j,y_j) = -20 y_j = "\lambda"
 			 	 	 \] en stel we gebruiken Voorwaarts Euler dan moet gelden $ h \le \frac{2}{\abs{\lambda}} $. Oftewel \[ 
-				 	 	 h \le \frac{2}{20} \abs{y_j} = \frac{\abs{y_j}}{10}.
+				 	 	 h \le \frac{2}{\abs{\lambda}}= \frac{2}{20\abs{y_j}} = \frac{1}{10\abs{y_j}}.
 			 	 	  \]
 		 	 	  \end{voorbeeld}	
 			 
