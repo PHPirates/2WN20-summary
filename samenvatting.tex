@@ -106,7 +106,7 @@
 			\begin{theorem}
 				Voor het verschil tussen $ f(x) $ en $ p(x) $ geldt het volgende:
 				\[ 
-					f(x) - p(x) = \half (x-x_0)(x-x_1)f''(\xi) \qquad \xi \in (x_0,x,x_1)\,.
+					f(x) - p(x) = \frac{1}{2} (x-x_0)(x-x_1)f''(\xi) \qquad \xi \in (x_0,x,x_1)\,.
 				\]
 				Oftewel, $ \xi $ ligt in het open interval opgespannen door de uitersten van $ x_0, x, x_1 $ (we sluiten extrapolatie niet uit).
 			\end{theorem}
@@ -207,7 +207,7 @@
 				
 				Tenslotte bekijken we de centrale benadering, wat het gemiddelde is van de voor- en achterwaartse benaderingen. \index{Qc@$Q_c(x,h)$}
 				\[ 
-					Q_c(x,h) = \half (Q_v(x,h) + Q_a(x,h)) = \frac{f(x+h)-f(x-h)}{2h}\,.
+					Q_c(x,h) = \frac{1}{2} (Q_v(x,h) + Q_a(x,h)) = \frac{f(x+h)-f(x-h)}{2h}\,.
 				\]
 				De afbreekfout die volgt is $ f'(x) - Q_c(x,h) = \frac{-h^2}{6} f'''(\xi), \xi \in (x-h, x+h) $.
 			\end{define}
@@ -283,20 +283,57 @@
 			 waarbij $\epsilon'=\lambda \epsilon$ de \indx{evolutievergelijking} voor de verstoring is.
 			 \end{define}
 			 
-			 %todo?
+			 \paragraph{\indx{Stabiliteitseisen} }
+			 Er zijn twee mogelijkheden, de 'gewone' stabiliteitseis dat $ \abs{\epsilon(t)} $ eindig is voor alle $t$, of de \indx{absolute stabiliteitseis} dat $ \lim_{t\to \infty} \abs{\epsilon(t)} = 0 $. Let op, dit gaat over wiskundige stabiliteit, fysische stabiliteit was al afgedwongen door $\lambda <0$ te nemen.
+			 
+			 Je kunt nagaan dat voor Voorwaarts Euler de (gewone) numerieke stabiliteit geldt bij $ \abs{1+\lambda h} \le 1 $ en dus $ h \le \frac{2}{\abs{\lambda}}. $
+			 
+			 Evenzo volgt uit verdere stabiliteitsanalyses dat Achterwaarts Euler en de Trapeziumregel onvoorwaardelijk stabiel zijn, maar Modified Euler ook als voorwaarde $ h \le \frac{2}{\abs{\lambda}} $ heeft. 
+			 \begin{theorem}In het algemeen geldt dat expliciete numerieke methodes voor gewone differentiaalvergelijkingen, zoals Voorwaarts en Modified Euler, voorwaardelijk stabiel zijn, en impliciete methodes zoals Achterwaarts Euler en de Trapeziumregel onvoorwaardelijk stabiel zijn.
+			 	\end{theorem}
+			 	
+			 	\paragraph{\indx{Numerieke stabiliteitsanalyse} voor willekeurige $ f(t,y) $}
+			 	
+			 	Dit doen we door lokaal te lineariseren.
+			 	\[ 
+				 	f(t,y) = f(t_j,y_j) + (t-t_j) \frac{\partial f}{\partial t}(t_j,y_j) + (y-y_j)\frac{\partial f}{\partial y}(t_j,y_j)
+			 	 \]
+			 	 Dit is makkelijker te onthouden door te zien dat dit gaat als bij $y'=\lambda y +g(t)$ met $\lambda =\frac{\partial f}{\partial y}(t_j,y_j)$.
+			 	 \begin{voorbeeld}
+			 	 	
+			 	 	Zij $ y'=-10y^2 $ niet lineair, dan
+			 	 	\[ 
+				 	 	\frac{\partial f}{\partial y}(t_j,y_j) = -20 y_j = "\lambda"
+			 	 	 \] en stel we gebruiken Voorwaarts Euler dan moet gelden $ h \le \frac{2}{\abs{\lambda}} $. Oftewel \[ 
+				 	 	 h \le \frac{2}{20} \abs{y_j} = \frac{\abs{y_j}}{10}.
+			 	 	  \]
+		 	 	  \end{voorbeeld}	
 			 
 		\subsection{\indx{Local truncation error} }
 			\begin{define}
-			De \indx{lokale afbreekfout} $\tau_{j+1}=\frac{y_{j+1}-z_{j+1}}{h}$ met $z_{j+1}$ de numerieke oplossing uitgaande van de exacte oplossing.
+			De \indx{lokale afbreekfout} $\tau_{j+1} \coloneqq \frac{y_{j+1}-z_{j+1}}{h}$ met $z_{j+1}$ de numerieke oplossing uitgaande van de exacte oplossing op $t_j:\ y_j$.
 			\end{define}
 			
-			%todo
+			\begin{voorbeeld}
+				Zij $y'=\lambda y$.
+				Voor Modified Euler geldt $ z_{j+1} = (1+\lambda h + \frac{1}{2} (\lambda h)^2)y_j $ en dus (met behulp van een Taylorexpansie van $y_{j+1}=e^{\lambda h}$)
+				\[ 
+					\frac{(1+\lambda h + \frac{1}{2}(\lambda h)^2 + \frac{1}{3}(\lambda h)^3+\dotsm) - Z_{j+1}}{h} = O(h^2).
+				 \]
+			\end{voorbeeld}
 			
 			\begin{define}
 				
 				$e_{j+1}=w_{j+1}-y_{j+1}$ is de \indx{lokale discretisatiefout} (de fout in de oplossing).
 			\end{define}
-			$\tau_{j+1}$ is een maat voor de fout in de evaluatie.
+			$\tau_{j+1}$ is een maat voor de nauwkeurigheid waarmee $\int_t^{t_{j+1}} f(\tau,y) \d \tau$ word ge\"evalueerd.
+			
+			%todo wat wordt hiermee bedoeld?:
+			\[ 
+				y'=f(t,y) \to y(t_j) = y(t_j) + \int_t^{t_{j+1}} f(\tau,y) \d \tau \text{ (exact)} 
+			 \] %etc
+			 
+			 
 		
 			
 				

@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{2wa40summary}[]
+\ProvidesClass{2wn20summary}[]
 
 %CHANGELOG
 %2016/9/10
