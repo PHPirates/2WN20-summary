@@ -11,7 +11,7 @@
 	Mocht je foutjes/opmerkingen/verbeteringen vinden, we zien ze graag op de \href{https://github.com/PHPirates/2WN20-summary/issues}{issue tracker}.
 	
 	Het boek waar naar verwezen wordt is \textbf{Numerical Methods for Ordinary Differential Equations}, \textit{C.~Vuik, F.J. Vermolen, M.B. van Gijzen, M.J. Vuik}.
-	
+
 	\section{College 1}
 	\subsection{Floats}
 		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots + d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$. Verder geldt $ 0 < d_1 < \beta $.
@@ -108,7 +108,7 @@
 			\begin{theorem}
 				Voor het verschil tussen $ f(x) $ en $ p(x) $ geldt het volgende:
 				\[ 
-					f(x) - p(x) = \half (x-x_0)(x-x_1)f''(\xi) \qquad \xi \in (x_0,x,x_1)\,.
+					f(x) - p(x) = \frac{1}{2} (x-x_0)(x-x_1)f''(\xi) \qquad \xi \in (x_0,x,x_1)\,.
 				\]
 				Oftewel, $ \xi $ ligt in het open interval opgespannen door de uitersten van $ x_0, x, x_1 $ (we sluiten extrapolatie niet uit).
 			\end{theorem}
@@ -209,26 +209,162 @@
 				
 				Tenslotte bekijken we de centrale benadering, wat het gemiddelde is van de voor- en achterwaartse benaderingen. \index{Qc@$Q_c(x,h)$}
 				\[ 
-					Q_c(x,h) = \half (Q_v(x,h) + Q_a(x,h)) = \frac{f(x+h)-f(x-h)}{2h}\,.
+					Q_c(x,h) = \frac{1}{2} (Q_v(x,h) + Q_a(x,h)) = \frac{f(x+h)-f(x-h)}{2h}\,.
 				\]
 				De afbreekfout die volgt is $ f'(x) - Q_c(x,h) = \frac{-h^2}{6} f'''(\xi), \xi \in (x-h, x+h) $.
 			\end{define}
-			
+
 			\begin{define}
 				De \indx{afrondfout} \index{rounding error} voor $ Q_c(x,h) $ is gegeven door
-				\[ 
+				\[
 					\abs{Q_c(x,h) - \hat{Q}_c(x,h)} = \abs{\frac{f(x+h)-f(x-h)}{2h}- \frac{\hat{f}(x+h) - \hat{f}(x-h)}{2h}} \leq \frac{\epsilon_1 + \epsilon_2}{2h} \leq \frac{\epsilon}{h}, \qquad \epsilon = \max (\epsilon_1, \epsilon_2)\,.
 				\]
 				De \indx{totale fout} is de afbreekfout plus de afrondfout. Voor $ Q_c(x,h) $ is dit dus
-				\[ 
-					\abs{\frac{-h^2}{6}f'''(\xi)} + \frac{\epsilon}{h} \leq \frac{h^2}{6}\max\abs{f'''(\xi)}+ \frac{\epsilon}{h}\,.					
+				\[
+					\abs{\frac{-h^2}{6}f'''(\xi)} + \frac{\epsilon}{h} \leq \frac{h^2}{6}\max\abs{f'''(\xi)}+ \frac{\epsilon}{h}\,.
 				\]
 				Verder geldt dat de afrondfout $ = \bigO(h^{-1}) $ en de afbreekfout $ = \bigO(h^2) $. Dit betekent dat als $h$ groter wordt de afrondfout kleiner wordt, maar de afbreekfout groter. Er is dus een optimale $h$ waarvoor de totale fout minimaal is.
 			\end{define}
-			
+
 		\subsection{Richardson extrapolatie}
 			\indx{Richardson extrapolatie} is een praktische manier om afbreekfouten te schatten zonder gebruik te maken van afgeleiden van $ f(x) $. Zie boek 3.7 page 33.
-			
+
+
+
+	\newpage
+	\section{College 4}
+		We bekijken differentiaalvergelijkingen van de vorm
+		\[
+			y' = \frac{\d y}{\d t} = f(t,y) \,, y = y(t) \,, \text{ beginvoorwaarde } y(t_0) = y_0 \,,
+		 \]
+		 met $f(t,y),t_0,y_0$ gegeven.
+
+		 \begin{voorbeeld}
+
+		 	$y'=\lambda y,\ y(t_0)=y(0)=y_0$ is nog exact op te lossen, en heeft als oplossing $y=y_0 e^{\lambda t}$. We kiezen hier voor het gemak $\lambda <0$, omdat we daardoor fysische stabiliteit garanderen.
+		 \end{voorbeeld}
+		 \begin{define}
+		 	$y'=f(t,y)$ is \indx{goed gesteld} \index{well posed}indien er een unieke oplossing $y=y(t)$ bestaat die continu afhangt van $y(t_0)=y_0$.
+
+		 	Een karakterisering is
+		 	\[
+			 	\abs{\frac{\partial f(t,y)}{\partial y}} \le L \in \reals \ \forall{t,y} \text{ in het te beschouwen rekendomein (t-waarden)}.
+		 	 \]
+		 	 Dit kennen we ook als \indx{Lipschitz-continu\"iteit}.
+		 \end{define}
+
+		 \begin{define}
+		 	We noemen $y'=f(t,y)$ de \indx{differentiaalvorm}, $y(t_0) = y_0$. Dit is om te vormen in $y(t) = y_0 + \int_{t_0}^t f(\tau,y) \d \tau$, de \indx{integraalvorm} (impliciet).
+		 \end{define}
+
+		 \subsection{Numerieke methoden voor differentiaalvergelijkingen}
+		 \subsubsection{Voorwaarts Euler (instabiel)}
+			 We benaderen $y(t) \approx y_0 + h f(t_0,y_0)$ met $h=t-t_0$, stukgewijs. Dus $y(t_1) \approx y_0 + h f(t_0,y_0) = w_1$, $y(t_1)$ is de exacte oplossing en $w_1$ de numerieke, en $w_2 = w_1 + h f(t_1,w_1)$, enzovoort.
+
+			 Algemener geldt dan $w_{j+1}+h f(t_j,w_j)$ met $h=t_{j+1}-t_j$, dit is dus een expliciete formule.
+		\subsubsection{Achterwaarts Euler (iets stabieler)}
+			Hier geldt de impliciete formule
+			\[
+				w_{j+1} = w_j + h f(t_{j+1},w_{j+1}) \,.
+			 \]
+		\subsubsection{Trapeziumregel}
+			Weer een impliciete formule
+			\[
+				w_{j+1} = w_j + \frac{h}{2} ( f(t_j,w_j) + f(t_{j+1},w_{j+1})) \,.
+			 \]
+		\subsubsection{Modified Euler}
+			Dit is een expliciete vorm van de trapeziumregel. Het doet eerst een voorspelling met voorwaarts Euler, $\overline w_{j+1} = w_j + h f(t_j,w_j)$. Dan volgt een correctiestap $w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1},\overline w_{j+1}))$ .
+
+		\subsection{Versterkingsfactoren van de methoden}
+			Toegepast op $y'=\lambda y,\ y(t_0) = y_0$.
+			\paragraph{Voorwaarts Euler}
+				\begin{define}
+				Er geldt dus $w_{j+1} = w_j + h \lambda w_j = (1+\lambda h) w_j$, waarbij de \indx{versterkingsfactor} $Q(\lambda,h) = 1+\lambda h$.
+				\end{define}
+			Je kunt nagaan dat de andere versterkingsfactoren respectievelijk
+			\[
+				\frac{1}{1-\lambda h},\ \frac{1+\frac{h}{2}\lambda}{1-\frac{h}{2}\lambda},\ 1+h\lambda + \frac{1}{2} (h\lambda)^2
+				\]
+				zijn.
+
+		\subsection{Verstoringen in beginwaarden}
+			\begin{define}
+			Gegeven de vergelijkingen
+			\begin{align}
+				y'=\lambda y,\ & y(t_0) = y_0 \\
+				\hat y' = \lambda \hat y,\ & \hat y (t_0) = \hat y_0
+			\end{align}
+			met $\epsilon_0 = \hat y_0 - y_0$ als verstoring in beginvoorwaarde, dan volgt uit $(2)-(1)$
+			\[
+				\hat y' - y'=\lambda (\hat y-y) \implies \epsilon'=\lambda \epsilon,\ \epsilon(t_0) = \epsilon_0
+			 \]
+			 waarbij $\epsilon'=\lambda \epsilon$ de \indx{evolutievergelijking} voor de verstoring is.
+			 \end{define}
+
+			 \paragraph{\indx{Stabiliteitseisen} }
+			 Er zijn twee mogelijkheden, de 'gewone' stabiliteitseis dat $ \abs{\epsilon(t)} $ eindig is voor alle $t$, of de \indx{absolute stabiliteitseis} dat $ \lim_{t\to \infty} \abs{\epsilon(t)} = 0 $. Let op, dit gaat over wiskundige stabiliteit, fysische stabiliteit was al afgedwongen door $\lambda <0$ te nemen.
+
+			 Je kunt nagaan dat voor Voorwaarts Euler de (gewone) numerieke stabiliteit geldt bij $ \abs{1+\lambda h} \le 1 $ en dus $ h \le \frac{2}{\abs{\lambda}}. $
+
+			 Evenzo volgt uit verdere stabiliteitsanalyses dat Achterwaarts Euler en de Trapeziumregel onvoorwaardelijk stabiel zijn, maar Modified Euler ook als voorwaarde $ h \le \frac{2}{\abs{\lambda}} $ heeft.
+			 \begin{theorem}In het algemeen geldt dat expliciete numerieke methodes voor gewone differentiaalvergelijkingen, zoals Voorwaarts en Modified Euler, voorwaardelijk stabiel zijn, en impliciete methodes zoals Achterwaarts Euler en de Trapeziumregel onvoorwaardelijk stabiel zijn.
+			 	\end{theorem}
+
+			 	\paragraph{\indx{Numerieke stabiliteitsanalyse} voor willekeurige $ f(t,y) $}
+
+			 	Dit doen we door lokaal te lineariseren.
+			 	\[
+				 	f(t,y) = f(t_j,y_j) + (t-t_j) \frac{\partial f}{\partial t}(t_j,y_j) + (y-y_j)\frac{\partial f}{\partial y}(t_j,y_j)
+			 	 \]
+			 	 Dit is makkelijker te onthouden door te zien dat dit gaat als bij $y'=\lambda y +g(t)$ met $\lambda =\frac{\partial f}{\partial y}(t_j,y_j)$.
+			 	 \begin{voorbeeld}
+
+			 	 	Zij $ y'=-10y^2 $ niet lineair, dan
+			 	 	\[
+				 	 	\frac{\partial f}{\partial y}(t_j,y_j) = -20 y_j = "\lambda"
+			 	 	 \] en stel we gebruiken Voorwaarts Euler dan moet gelden $ h \le \frac{2}{\abs{\lambda}} $. Oftewel \[
+				 	 	 h \le \frac{2}{\abs{\lambda}}= \frac{2}{20\abs{y_j}} = \frac{1}{10\abs{y_j}}.
+			 	 	  \]
+		 	 	  \end{voorbeeld}
+
+		\subsection{\indx{Local truncation error} }
+			\begin{define}
+			De \indx{lokale afbreekfout} $\tau_{j+1} \coloneqq \frac{y_{j+1}-z_{j+1}}{h}$ met $z_{j+1}$ de numerieke oplossing uitgaande van de exacte oplossing op $t_j:\ y_j$.
+			\end{define}
+
+			\begin{voorbeeld}
+				Zij $y'=\lambda y$.
+				Voor Modified Euler geldt $ z_{j+1} = (1+\lambda h + \frac{1}{2} (\lambda h)^2)y_j $ en dus (met behulp van een Taylorexpansie van $y_{j+1}=e^{\lambda h}$)
+				\[
+					\frac{(1+\lambda h + \frac{1}{2}(\lambda h)^2 + \frac{1}{3}(\lambda h)^3+\dotsm) - Z_{j+1}}{h} = O(h^2).
+				 \]
+			\end{voorbeeld}
+
+			\begin{define}
+
+				$e_{j+1}=w_{j+1}-y_{j+1}$ is de \indx{lokale discretisatiefout} (de fout in de oplossing).
+			\end{define}
+			$\tau_{j+1}$ is een maat voor de nauwkeurigheid waarmee $\int_t^{t_{j+1}} f(\tau,y) \d \tau$ word ge\"evalueerd.
+
+			%todo wat wordt hiermee bedoeld?:
+			\[
+				y'=f(t,y) \to y(t_j) = y(t_j) + \int_t^{t_{j+1}} f(\tau,y) \d \tau \text{ (exact)}
+			 \] %etc
+
+
+
+
+
+
+	\section{College 5}
+
+	\section{College 6}
+
+	\section{College 7}
+
+	\section{College 8}
+
+
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
