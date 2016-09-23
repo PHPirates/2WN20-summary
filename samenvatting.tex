@@ -359,10 +359,103 @@
 	\section{College 5}
 
 	\section{College 6}
+	
+	\subsection{Belang van hogere orde nauwkeurigheid}
+	
+		Als we Voorwaarts Euler ($O(h)$) bekijken, $w_{j+1} = w_j + hf(t_j,w_j)$, zien we dat dit \'e\'en $f$-evaluatie bevat. Modified Euler ($O(h^2)$), verkort te schrijven als
+		\[ 
+			w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1},w_j + hf(t_j,w_j)))
+		 \]
+		 bevat echter effectief twee $f$-evaluaties. Dit kunnen we ook in een tabel weergeven aan de hand van $e_n$, de globale discretisatiefout.
+		 
+		 \[ 
+			 \begin{array}{c|cc|cc|c}
+				 & \text {Voorwaarts Euler} & & \text {Modified Euler} & & \\
+				 e_n & \text {stapgrootte} & \text {\#f-evaluaties} & \text {stapgrootte} & \text {\#f-evaluaties} & \text {beste} \\
+				 \alpha & h &n &h &2n & \text {VE} \\
+				 \alpha /4 & h/4 & 4n & h/2 & 4n & - \\
+				 \alpha /16 & h/16 & 16n & h/4 & 8n & \text {ME} \\
+				 \alpha /64 & h/64 & 64n & h/8 & 16n & \text {ME}
+			 \end{array}
+		  \]
+		  
+		  We zien hier dat een methode van hogere orde nauwkeurigheid \textbf{niet} per s\'e beter % hij zei nauwkeuriger maar betwijfel of dat zo is
+		   is, maar zich anders gedraagt bij een kleiner wordende $h$.
+		  
+	\subsection{\indx{Stijve differentiaalvergelijkingen}}
+		Gegeven de vergelijking $\y'=\f (t,\y )$, bepalend voor fysische stabiliteit zijn de eigenwaarden $\lambda_i$ van $\frac{\partial \f  }{\partial \y }$. Bij Voorwaarts Euler hebben we een beperkt stabiliteitsgebied, namelijk de cirkel met straal 1 en middelpunt (-1,0) $(1+h \mu_i)^2 +h \nu_i^2 \le 1 \forall_i$ waarbij $h\mu_i$ op de 'x-as' en $h \nu_i$ op de 'y-as' staat. Daarom kan het voorkomen dat er \'e\'en eigenwaarde heel ver weg ligt waardoor je $h$ heel erg klein moet nemen om alle eigenwaarden in de cirkel te krijgen. Dit is een typisch stijf probleem.		  
+		
+		Bij impliciete methoden zoals Achterwaarts Euler en de Trapeziumregel is het stabiliteitsgebied zo groot dat je geen kleine $h$ hoeft te nemen.
+		
+	\subsection{\indx{Method of manufactured solutions}}
+	
+		We gaan hier van van een scalaire, lineaire, inhomogene differentiaalvergelijking $y'=\lambda y + g(t)$.
+		
+		We maken een differentiaalvergelijking door uit te gaan van een oplossing $y(t) = C e^{\lambda t} +F(t)$, met $C$ een constante en $F(t)$ een particuliere oplossing. Hieruit volgt $y'(t) = C\lambda e^{\lambda t} + F'(t)$.
+		
+		Als we dit terugsubstitueren krgijen we
+		\begin{align*}
+			C \lambda e^{\lambda t} + F'(t) &= \lambda (C e^{\lambda t} +F(t)) + g(t) \\
+			g(t) &= F'(t) - \lambda F(t)
+		\end{align*}
+		oftewel de inhomogene term in termen van de particuliere oplossing.
+		
+		\begin{voorbeeld}
+			Stel $C=-1$ en $\lambda = -1000$, dan kunnen we zien dat bij Voorwaarts Euler (en expliciete methoden in het algemeen) een $h\le \frac{2}{|\lambda|} = \frac{1}{500}$ nodig is. Dat is vervelend omdat zo'n kleine $h$ alleen dicht bij de oorsprong nodig is en daarna niet meer omdat de $e$-macht dan 'uitgedoofd' is. Impliciete methoden zijn onvoorwaardelijk stabiel dus daar zouden we de $h$ kunnen aanpassen aan wat nodig is (eerst klein, dan groter).
+		\end{voorbeeld}
+		
+			We zien ook dat de versterkingsfactor van Achterwaarts Euler $Q(\lambda h)=\frac{1}{1-\lambda h}$ naar nul nadert als $\lambda h \to - \infty$, dus dit is stabiel (verstoringen doven snel uit). Echter bij de Trapeziumregel nadert de versterkingsfactor $Q(\lambda h)=\frac{1+\lambda h/2}{1-\lambda h/2}$ naar -1 nadert als $\lambda h \to - \infty$, en als je dan in het begin een te grote $h$ hebt gekozen dan dempt de fout niet snel uit en krijg je grote oscillaties.
+			
+		\subsection{\indx{Runge-Kutta methoden}} 
+			Dit is een klasse van \indx{\'e\'enstapsmethoden}, dat wil zeggen dat deze van $t_j$ naar $t_{j+1}$ gaan. Bijvoorbeeld Voorwaarts Euler is RK1, Modified Euler is RK2. Modified Euler, normaal geschreven als
+			\begin{align*}
+				\overline w_{j+1} &= w_j + h f(t_j,w_j) \\
+				w_{j+1} &= w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1},\overline w_{j+1}))
+			\end{align*}
+			is op de Runge-Kutta manier te schrijven als
+			\begin{align*}
+				k_1 &= hf(t_j,w_j) \\
+				k_2 &= hf(t_{j+1},w_j + k_1) \\
+				w_{j+1} &= w_j + \frac{1}{2}(k_1 + k_2) \,.
+			\end{align*}
+			
+			Hierdoor is ook makkelijk te zien dat dit inderdaad slechts twee effectieve $f$-evaluaties zijn.
+			
+		\subsubsection{\indx{RK4 (standaard)}}
+			Dit is een $4^e$ orde nauwkeurige methode ook voor niet-lineaire problemen, als volgt definieerd:
+			\begin{align*}
+				k_1 &= hf(t_j,w_j) \\
+				k_2 &= h f(t_j+\frac{1}{2} h,w_j + \frac{1}{2}k_1) \\
+				k_3 &= hf (t_j+\frac{1}{2}h,w_j + \frac{1}{2}k_2) \\
+				k_4 &= hf(t_j + h,w_j + k_3) \\
+				w_{j+1} &= w_j + \frac{1}{6} (k_1 + 2k_2 + 2k_3 + k_4)\quad \text {\indx{Simpsonregel}}
+			\end{align*}
+			De Simpsonregel is een integratieregel voor $\int_{t_j}^{t_{j+1}} f(\tau,y) \d \tau$ net als Voorwaarts Euler of de Trapeziumregel.
+			
+		\subsection{Meerstapsmethoden}
+			We beschouwen $y'=f(t,y)$ met de Trapeziumregel, $w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1}, w_{j+1}))$. Nu gaan we $f$ extrapoleren zodat $f(t_{j+1}, w_{j+1})$ vervangend wordt door $2f(t_j,w_j)-f(t_{j-1},w_{j-1})$. Dit is een $O(h^2)$ extrapolatie vanuit $t_{j-1},t_j$.
+			
+			Een andere mogelijkheid is \indx{Adams-Bashforth}, met
+			\[ 
+				w_{j+1} = w_j + \frac{3h}{2} f(t_j,w_j) - \frac{h}{2} f(t_{j-1},w_{j-1}) \,.
+			 \]
+			 \begin{opm}
+			 	Door mogelijk grote extrapolatie kunnen grote fouten ontstaan
+			 \end{opm}
+			 \begin{opm}
+				 Deze methoden zijn niet zelfstartend, dus er zijn ook andere methoden nodig
+			 \end{opm}
+			 
+			 Dor een analyse van Adams-Bashforth te doen blijkt dat (voor een testvergelijking $y'=\lambda y$) de stabiliteitseis voor twee mogelijke versterkingsfactoren $\abs{Q_{1,2}} \le 1$. Door consistentie te testen volgt ook de orde, en misschien ook wel convergentie met de Lax-stelling.
+		                  
 
 	\section{College 7}
 
 	\section{College 8}
+	
+	\section{College 9}
+	
+	\section{College 10}
 
 
 	\phantomsection
