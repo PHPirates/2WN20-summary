@@ -372,6 +372,7 @@
 			 \begin{array}{c|cc|cc|c}
 				 & \text {Voorwaarts Euler} & & \text {Modified Euler} & & \\
 				 e_n & \text {stapgrootte} & \text {\#f-evaluaties} & \text {stapgrootte} & \text {\#f-evaluaties} & \text {beste} \\
+				 \hline
 				 \alpha & h &n &h &2n & \text {VE} \\
 				 \alpha /4 & h/4 & 4n & h/2 & 4n & - \\
 				 \alpha /16 & h/16 & 16n & h/4 & 8n & \text {ME} \\
@@ -389,7 +390,7 @@
 		
 	\subsection{\indx{Method of manufactured solutions}}
 	
-		We gaan hier van van een scalaire, lineaire, inhomogene differentiaalvergelijking $y'=\lambda y + g(t)$.
+		We gaan hier uit van een scalaire, lineaire, inhomogene differentiaalvergelijking $y'=\lambda y + g(t)$.
 		
 		We maken een differentiaalvergelijking door uit te gaan van een oplossing $y(t) = C e^{\lambda t} +F(t)$, met $C$ een constante en $F(t)$ een particuliere oplossing. Hieruit volgt $y'(t) = C\lambda e^{\lambda t} + F'(t)$.
 		
@@ -404,7 +405,7 @@
 			Stel $C=-1$ en $\lambda = -1000$, dan kunnen we zien dat bij Voorwaarts Euler (en expliciete methoden in het algemeen) een $h\le \frac{2}{|\lambda|} = \frac{1}{500}$ nodig is. Dat is vervelend omdat zo'n kleine $h$ alleen dicht bij de oorsprong nodig is en daarna niet meer omdat de $e$-macht dan 'uitgedoofd' is. Impliciete methoden zijn onvoorwaardelijk stabiel dus daar zouden we de $h$ kunnen aanpassen aan wat nodig is (eerst klein, dan groter).
 		\end{voorbeeld}
 		
-			We zien ook dat de versterkingsfactor van Achterwaarts Euler $Q(\lambda h)=\frac{1}{1-\lambda h}$ naar nul nadert als $\lambda h \to - \infty$, dus dit is stabiel (verstoringen doven snel uit). Echter bij de Trapeziumregel nadert de versterkingsfactor $Q(\lambda h)=\frac{1+\lambda h/2}{1-\lambda h/2}$ naar -1 nadert als $\lambda h \to - \infty$, en als je dan in het begin een te grote $h$ hebt gekozen dan dempt de fout niet snel uit en krijg je grote oscillaties.
+			We zien ook dat de versterkingsfactor van Achterwaarts Euler $Q(\lambda h)=\frac{1}{1-\lambda h}$ naar nul nadert als $\lambda h \to - \infty$, dus dit is stabiel (verstoringen doven snel uit). Echter bij de Trapeziumregel nadert de versterkingsfactor $Q(\lambda h)=\frac{1+\lambda h/2}{1-\lambda h/2}$ naar -1 als $\lambda h \to - \infty$, en als je dan in het begin een te grote $h$ hebt gekozen dan dempt de fout niet snel uit en krijg je grote oscillaties.
 			
 		\subsection{\indx{Runge-Kutta methoden}} 
 			Dit is een klasse van \indx{\'e\'enstapsmethoden}, dat wil zeggen dat deze van $t_j$ naar $t_{j+1}$ gaan. Bijvoorbeeld Voorwaarts Euler is RK1, Modified Euler is RK2. Modified Euler, normaal geschreven als
@@ -416,10 +417,9 @@
 			\begin{align*}
 				k_1 &= hf(t_j,w_j) \\
 				k_2 &= hf(t_{j+1},w_j + k_1) \\
-				w_{j+1} &= w_j + \frac{1}{2}(k_1 + k_2) \,.
+				w_{j+1} &= w_j + \frac{1}{2}(k_1 + k_2) \,,
 			\end{align*}
-			
-			Hierdoor is ook makkelijk te zien dat dit inderdaad slechts twee effectieve $f$-evaluaties zijn.
+			waar $k_1$ en $k_2$ hulpgrootheden noemen. Hierdoor is ook makkelijk te zien dat dit inderdaad slechts twee effectieve $f$-evaluaties zijn.
 			
 		\subsubsection{\indx{RK4 (standaard)}}
 			Dit is een $4^e$ orde nauwkeurige methode ook voor niet-lineaire problemen, als volgt definieerd:
