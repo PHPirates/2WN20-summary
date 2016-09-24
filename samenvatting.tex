@@ -1,5 +1,6 @@
 \documentclass{2wn20summary}
 \usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
 
 \begin{document}
 	\maketitle
@@ -262,11 +263,50 @@
 			 We benaderen $y(t) \approx y_0 + h f(t_0,y_0)$ met $h=t-t_0$, stukgewijs. Dus $y(t_1) \approx y_0 + h f(t_0,y_0) = w_1$, $y(t_1)$ is de exacte oplossing en $w_1$ de numerieke, en $w_2 = w_1 + h f(t_1,w_1)$, enzovoort.
 
 			 Algemener geldt dan $w_{j+1}+h f(t_j,w_j)$ met $h=t_{j+1}-t_j$, dit is dus een expliciete formule.
+			 
+			 \begin{tikzpicture}
+			 \begin{axis}[
+					 axis lines = left,
+					 xmin=-2, xmax=2, ymin=-3.5, ymax=0.5,
+					 ylabel=$y$,
+					 ytick=\empty,
+					 xlabel={$t$},
+					 xtick={-1,-0.5},
+					 xticklabels={$t_j$, $t_{j+1}$}
+				 ]
+				 \addplot[samples=200]{-x^2};
+				 \addplot[name path=C] 	coordinates {(-2,-3.5) (2,-3.5)};
+				 \addplot[dashed] 		coordinates {(-1,-3.5) (-1,-1)} node[above,left]{$w_j$};
+				 \addplot[dashed] 		coordinates {(-0.5,-3.5) (-0.5,-0.25)};
+				 \addplot[dashed, name path=D] coordinates {(-1,-1) (-0.5,-1)} node[above]{$w_{j+1}$};
+				 \addplot[blue!20] fill between[of=C and D,soft clip={domain=-1:-0.5}];
+			 \end{axis}
+			 \end{tikzpicture}
+			 
 		\subsubsection{\indx{Achterwaarts Euler} (iets stabieler)}
 			Hier geldt de impliciete formule
 			\[
 				w_{j+1} = w_j + h f(t_{j+1},w_{j+1}) \,.
 			 \]
+			 \begin{tikzpicture}
+			 \begin{axis}[
+					 axis lines = left,
+					 xmin=-2, xmax=2, ymin=-3.5, ymax=0.5,
+					 ylabel=$y$,
+					 ytick=\empty,
+					 xlabel={$t$},
+					 xtick={-1.5,-1},
+					 xticklabels={$t_{j-1}$, $t_j$}
+				 ]
+				 \addplot[samples=200]{-x^2};
+				 \addplot[name path=C] 	coordinates {(-2,-3.5) (2,-3.5)};
+				 \addplot[dashed] 		coordinates {(-1,-3.5) (-1,-1)} node[above]{$w_j$};
+				 \addplot[dashed] 		coordinates {(-1.5,-3.5) (-1.5,-1)}node[above,left]{$w_{j-1}$};
+				 \addplot[dashed, name path=D] coordinates {(-1.5,-1) (-1,-1)};
+				 \addplot[blue!20] fill between[of=C and D,soft clip={domain=-1.5:-1}];
+			 \end{axis}
+			 \end{tikzpicture}
+			 
 		\subsubsection{\indx{Trapeziumregel}}
 			Weer een impliciete formule
 			\[
@@ -351,13 +391,10 @@
 				y'=f(t,y) \to y(t_j) = y(t_j) + \int_t^{t_{j+1}} f(\tau,y) \d \tau \text{ (exact)}
 			 \] %etc
 
-
-
-
-
-
+	\newpage
 	\section{College 5}
-
+			
+	\newpage
 	\section{College 6}
 	
 	\subsection{Belang van hogere orde nauwkeurigheid}
