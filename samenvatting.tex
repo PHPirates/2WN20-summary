@@ -481,6 +481,24 @@
 						\end{pmatrix}.
 					\]
 				\end{voorbeeld}
+				
+				\begin{opm}
+					De numerieke methoden die we eerder hebben gezien (VE, AE, Trapezium regel, ME) zijn hier hetzelfde als voor scalaire vergelijkingen, maar dan met vectoren.
+				\end{opm}
+				
+				We beschouwen de test vergelijking $ y'= \lambda y, \lambda < 0 $. In vectoren hebben we dan $ \y ' = A \y + \g (t), \y(t)= \y_0 $, met $A$ een matrix die in principe vol is. Voor verstoorde $\y$ hebben we $ \hat{\y}' = A\hat{\y} + \g(t) $. Voor de afrondfout $\epsilon$ hebben we $ \vec{epsilon}\,' = A\vec{\epsilon} $, met $ \vec{\epsilon}_0 (t_0) = \hat{\y_0}-\y $. Dit stelsel is \indx{gekoppeld}.
+				
+				\textbf{Truc:} voer in $ \vec{\epsilon} = S\vec{\eta} $, met $\eta$ de getransformeerde verstoringen, en $S$ een matrix met als kolommen de eigenvectoren van $A$. Nu hebben we $ S\vec{\eta} \,' = AS\vec{\eta} \implies \vec{\eta}\,' = S^{-1}AS\vec{\eta}$. Dit stelsel is \indx{ontkoppeld}.
+				
+				\textbf{Eis voor fysische stabiliteit van het stelsel}
+				\[ 
+					\lambda_i \in \complex \: \text{Re}(\lambda_i) \le 0\, \forall_i\,.
+				\]
+				
+				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \vec{\epsilon_{j+1}} = A \vec{\epsilon_j} + hA\vec{\epsilon_j} = (I + hA)\vec{\epsilon_j} $. Dit is een gekoppeld stelsen, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \vec{\eta_{j+1}} = S^{-1} (I+hA)S\vec{\eta_j} = (I+h\Lambda)\vec{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is ongeschikt voor zuiver imaginaire $i$.
+				
+				Voor achterwaarts Euler is het stabiliteitsgebied alles buiten de cirkel rond $ 1+0i $ met straal $1$. Deze methode is dus veel geschikter voor zuiver imaginaire $i$.
+				
 	\newpage
 	\section{College 6}
 	
