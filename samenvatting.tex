@@ -228,7 +228,7 @@
 			\end{define}
 
 		\subsection{Richardson extrapolatie}
-			\indx{Richardson extrapolatie} is een praktische manier om afbreekfouten te schatten zonder gebruik te maken van afgeleiden van $ f(x) $. Zie boek 3.7 page 33.
+			\indx{Richardson extrapolatie} is een praktische manier om afbreekfouten te schatten zonder gebruik te maken van afgeleiden van $ f(x) $. Zie boek 3.7 op pagina 33.
 
 
 
@@ -262,7 +262,7 @@
 		 \subsubsection{\indx{Voorwaarts Euler} (instabiel)}
 			 We benaderen $y(t) \approx y_0 + h f(t_0,y_0)$ met $h=t-t_0$, stukgewijs. Dus $y(t_1) \approx y_0 + h f(t_0,y_0) = w_1$, $y(t_1)$ is de exacte oplossing en $w_1$ de numerieke, en $w_2 = w_1 + h f(t_1,w_1)$, enzovoort.
 
-			 Algemener geldt dan $w_{j+1}+h f(t_j,w_j)$ met $h=t_{j+1}-t_j$, dit is dus een expliciete formule.
+			 Algemener geldt dan $w_{j+1}= w_j+h f(t_j,w_j)$ met $h=t_{j+1}-t_j$, dit is dus een expliciete formule.
 			 
 			 \begin{tikzpicture}
 			 \begin{axis}[
