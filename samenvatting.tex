@@ -1,15 +1,12 @@
 \documentclass{2wn20summary}
 
-\usepackage{pgfplots}
-\usepgfplotslibrary{fillbetween}
-
 \begin{document}
 	\maketitle
 	\thispagestyle{empty}
 	\newpage
 	
 	\section{Inleiding}
-	
+			
 	Mocht je foutjes/opmerkingen/verbeteringen vinden, we zien ze graag op de \href{https://github.com/PHPirates/2WN20-summary/issues}{issue tracker}.
 	
 	Het boek waar naar verwezen wordt is \textbf{Numerical Methods for Ordinary Differential Equations}, \textit{C.~Vuik, F.J. Vermolen, M.B. van Gijzen, M.J. Vuik}.
@@ -453,8 +450,8 @@
 			\end{align*}
 			
 			\subsection{Stelsel differentiaal vergelijkingen}
-				\begin{voorbeeld}[Prooidier-roofdier probleem, Gekoppels stelsel diff verg]
-					Stel $ y_1(t) = \#$konijnen, $\linebreak y_2(t) = \# $vossen. Verder geldt
+				\begin{voorbeeld}[Prooidier-roofdier probleem, een gekoppeld stelsel differentiaalvergelijkingen]
+					Stel $\linebreak y_1(t) = \#$konijnen, $ y_2(t) = \# $vossen. Verder geldt
 					\begin{align*}
 						\frac{\d}{\d t} y_1 &= c_1 y_1 - c_2 y_1 y_2 \qquad \text{(voortplanting konijnen - consumptie door vossen)} \\
 						\frac{\d}{\d t} y_2 &= c_3 y_ 1 y_2 - c_4 y_2 \qquad \text{(voortplanting vossen - verhongering vossen)}
@@ -470,11 +467,11 @@
 					\]
 				\end{voorbeeld}
 				\begin{voorbeeld}[Mathematische slinger]
-					Tweede orde differentiaal vergelijking.
+					Tweede orde differentiaalvergelijking.
 					\[ 
 					ml\frac{\d^2 \phi}{\d t^2} = -mg\sin \phi \implies \phi '' = \frac{-q}{l} \sin \phi \,.
 					\]
-					We defini\"eren $ y_1 = \phi, y_2 = \frac{\d \phi}{\d t} $. We krijgen nu de volgende differentiaal vergelijking, waar we $2$ beginvoorwaarden voor nodig hebben, namelijk $ y_1(t_0), \frac{d y_1}{d t}(t_0) $.
+					We defini\"eren $ y_1 = \phi, y_2 = \frac{\d \phi}{\d t} $. We krijgen nu de volgende differentiaalvergelijking, waar we twee beginvoorwaarden voor nodig hebben, namelijk $ y_1(t_0), \frac{d y_1}{d t}(t_0) $.
 					\[ 
 						\frac{\d}{\d t}\y = \begin{pmatrix}
 							y_2 \\ \frac{-g}{l} \sin y_1
@@ -483,19 +480,19 @@
 				\end{voorbeeld}
 				
 				\begin{opm}
-					De numerieke methoden die we eerder hebben gezien (VE, AE, Trapezium regel, ME) zijn hier hetzelfde als voor scalaire vergelijkingen, maar dan met vectoren.
+					De numerieke methoden die we eerder hebben gezien (VE, AE, Trapeziumregel, ME) zijn hier hetzelfde als voor scalaire vergelijkingen, maar dan met vectoren.
 				\end{opm}
 				
-				We beschouwen de test vergelijking $ y'= \lambda y, \lambda < 0 $. In vectoren hebben we dan $ \y ' = A \y + \g (t), \y(t)= \y_0 $, met $A$ een matrix die in principe vol is. Voor verstoorde $\y$ hebben we $ \hat{\y}' = A\hat{\y} + \g(t) $. Voor de afrondfout $\epsilon$ hebben we $ \vec{epsilon}\,' = A\vec{\epsilon} $, met $ \vec{\epsilon}_0 (t_0) = \hat{\y_0}-\y $. Dit stelsel is \indx{gekoppeld}.
+				We beschouwen de testvergelijking $ y'= \lambda y, \lambda < 0 $. In vectoren hebben we dan $ \y ' = A \y + \g (t), \y(t)= \y_0 $, met $A$ een matrix die in principe vol is. Voor verstoorde $\y$ hebben we $ \hat{\y}' = A\hat{\y} + \g(t) $. Voor de afrondfout $\epsilon$ hebben we $ \bm{\epsilon}\,' = A\bm{\epsilon} $, met $ \bm{\epsilon}_0 (t_0) = \hat{\y_0}-\y $. Dit stelsel is \indx{gekoppeld}.
 				
-				\textbf{Truc:} voer in $ \vec{\epsilon} = S\vec{\eta} $, met $\eta$ de getransformeerde verstoringen, en $S$ een matrix met als kolommen de eigenvectoren van $A$. Nu hebben we $ S\vec{\eta} \,' = AS\vec{\eta} \implies \vec{\eta}\,' = S^{-1}AS\vec{\eta}$. Dit stelsel is \indx{ontkoppeld}.
+				\textbf{Truc:} voer in $ \bm{\epsilon} = S\bm{\eta} $, met $\eta$ de getransformeerde verstoringen, en $S$ een matrix met als kolommen de eigenvectoren van $A$. Nu hebben we $ S\bm{\eta} \,' = AS\bm{\eta} \implies \bm{\eta}\,' = S^{-1}AS\bm{\eta}$. Dit stelsel is \indx{ontkoppeld}.
 				
 				\textbf{Eis voor fysische stabiliteit van het stelsel}
 				\[ 
-					\lambda_i \in \complex \: \text{Re}(\lambda_i) \le 0\, \forall_i\,.
+					\lambda_i \in \complex : \text{Re}(\lambda_i) \le 0\, \forall_i\,.
 				\]
 				
-				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \vec{\epsilon_{j+1}} = A \vec{\epsilon_j} + hA\vec{\epsilon_j} = (I + hA)\vec{\epsilon_j} $. Dit is een gekoppeld stelsen, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \vec{\eta_{j+1}} = S^{-1} (I+hA)S\vec{\eta_j} = (I+h\Lambda)\vec{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is ongeschikt voor zuiver imaginaire $i$.
+				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \bm{\epsilon_{j+1}} = A \bm{\epsilon_j} + hA\bm{\epsilon_j} = (I + hA)\bm{\epsilon_j} $. Dit is een gekoppeld stelsen, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \bm{\eta_{j+1}} = S^{-1} (I+hA)S\bm{\eta_j} = (I+h\Lambda)\bm{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is ongeschikt voor zuiver imaginaire $i$.
 				
 				Voor achterwaarts Euler is het stabiliteitsgebied alles buiten de cirkel rond $ 1+0i $ met straal $1$. Deze methode is dus veel geschikter voor zuiver imaginaire $i$.
 				
@@ -526,7 +523,7 @@
 		   is, maar zich anders gedraagt bij een kleiner wordende $h$.
 		  
 	\subsection{\indx{Stijve differentiaalvergelijkingen}}
-		Gegeven de vergelijking $\y'=\f (t,\y )$, bepalend voor fysische stabiliteit zijn de eigenwaarden $\lambda_i$ van $\frac{\partial \f  }{\partial \y }$. Bij Voorwaarts Euler hebben we een beperkt stabiliteitsgebied, namelijk de cirkel met straal 1 en middelpunt (-1,0) $(1+h \mu_i)^2 +h \nu_i^2 \le 1 \forall_i$ waarbij $h\mu_i$ op de 'x-as' en $h \nu_i$ op de 'y-as' staat. Daarom kan het voorkomen dat er \'e\'en eigenwaarde heel ver weg ligt waardoor je $h$ heel erg klein moet nemen om alle eigenwaarden in de cirkel te krijgen. Dit is een typisch stijf probleem.		  
+		Gegeven de vergelijking $\y'=\f (t,\y )$, bepalend voor fysische stabiliteit zijn de eigenwaarden $\lambda_i$ van $\frac{\partial \f  }{\partial \y }$. Bij Voorwaarts Euler hebben we een beperkt stabiliteitsgebied, namelijk de cirkel met straal 1 en middelpunt (-1,0) $(1+h \mu_i)^2 +h \nu_i^2 \le 1\ \forall_i$ waarbij $h\mu_i$ op de 'x-as' en $h \nu_i$ op de 'y-as' staat. Daarom kan het voorkomen dat er \'e\'en eigenwaarde heel ver weg ligt waardoor je $h$ heel erg klein moet nemen om alle eigenwaarden in de cirkel te krijgen. Dit is een typisch stijf probleem.		  
 		
 		Bij impliciete methoden zoals Achterwaarts Euler en de Trapeziumregel is het stabiliteitsgebied zo groot dat je geen kleine $h$ hoeft te nemen.
 		
@@ -536,7 +533,7 @@
 		
 		We maken een differentiaalvergelijking door uit te gaan van een oplossing $y(t) = C e^{\lambda t} +F(t)$, met $C$ een constante en $F(t)$ een particuliere oplossing. Hieruit volgt $y'(t) = C\lambda e^{\lambda t} + F'(t)$.
 		
-		Als we dit terugsubstitueren krgijen we
+		Als we dit terugsubstitueren krijgen we
 		\begin{align*}
 			C \lambda e^{\lambda t} + F'(t) &= \lambda (C e^{\lambda t} +F(t)) + g(t) \\
 			g(t) &= F'(t) - \lambda F(t)

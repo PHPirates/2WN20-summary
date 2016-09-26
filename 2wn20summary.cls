@@ -43,6 +43,9 @@
 \RequirePackage[makeroom]{cancel}
 \RequirePackage{hyperref} % should make index clickable
 \RequirePackage{bookmark} % Used for pdf bookmarks, needs to be loaded after hyperref
+\RequirePackage{pgfplots} % Drawings!
+\usepgfplotslibrary{fillbetween}
+\RequirePackage{bm} % bold math, \bm{}
 
 \title{\textbf{Samenvatting 2WN20 Inleiding Numerieke Analyse}}
 \author{Abby Berkers \\ Thomas Schouten}
