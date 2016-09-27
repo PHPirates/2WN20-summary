@@ -1,6 +1,4 @@
 \documentclass{2wn20summary}
-\usepackage{pgfplots}
-\usepgfplotslibrary{fillbetween}
 
 \begin{document}
 	\maketitle
@@ -8,14 +6,14 @@
 	\newpage
 	
 	\section{Inleiding}
-	
+			
 	Mocht je foutjes/opmerkingen/verbeteringen vinden, we zien ze graag op de \href{https://github.com/PHPirates/2WN20-summary/issues}{issue tracker}.
 	
 	Het boek waar naar verwezen wordt is \textbf{Numerical Methods for Ordinary Differential Equations}, \textit{C.~Vuik, F.J. Vermolen, M.B. van Gijzen, M.J. Vuik}.
 
 	\section{College 1}
 	\subsection{Floats}
-		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots + d_n \beta^{e-n})$ met $e \in [L,U], L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$. Verder geldt $ 0 < d_1 < \beta $.
+		\indx{Floats} zijn van de vorm $\pm (0.d_1 d_2 d_3 \dots d_n)\beta^e = \pm  (d_1 \beta^{e-1}+d_2 \beta^{e-2}+\dots + d_n \beta^{e-n})$ met $e \in [L,U], \linebreak L<~0, U>~0$ de exponent, $\beta$ de basis (voor computers $2$), $(0.d_1 d_2 d_3 \dots d_n)$ de \indx{mantisse}. Vaak geldt $\abs{L},\abs{U} \in [100,10000]$. Verder geldt $ 0 < d_1 < \beta $.
 		
 		\begin{define}
 		Voor $n$ zijn in principe twee mogelijkheden, $n=24$ met $0<d_i<\beta, i=2,3,\dotsc ,n$ heet \indx{single precision}, $n=53$ met $0 \le d_i < \beta$ heet \indx{double precision}. 
@@ -393,7 +391,111 @@
 
 	\newpage
 	\section{College 5}
+		\subsection{Convergentie}
+		Stel $ y' = f(t,y) $, met $f$ niet lineair. We weten de lokale afbreekfout $ \tau_{j+1} = \frac{y_{j+1}-z_{j+1}}{h} $. We noemen $ \abs{e_{j+1}} $ de \indx{globale discretisatiefout}, deze willen we zo klein mogelijk. We defini\"eren $ e_j=y_j-w_j $. We stellen de volgende convergentie-eis.
+		\[ 
+			\lim_{h \downarrow 0} e_j = 0 \,.
+		\]
+		%TODO plaatje Thomas
+		Oftewel, we eisen $ \abs{e_j} = \bigO(h^p) $, met $ p>0 $.
+		
+		We beschouwen de testvergelijking $ y' = \lambda y $, met $ \lambda < 0 $. We hebben hier voor $ e_j $
+		\begin{align*}
+			e_j = y_j - w_j &= y_j - z_j + (z_j - w_j) \\
+				&= h\tau_j + Q(\lambda h) (y_{j-1}-w_{j-1}) \\
+				&= h\tau_j + Q(\lambda h) (h\tau_{j-1} + Q(\lambda h)e_{j-2})\,.
+		\end{align*}
+		We zien dat we hier te maken hebben met recursie. We kunnen deze recursie voortzetten tot $ e_0 $. $ e_0$ is gedefinieerd als $ e_0 = y_0 - w_0 = 0 $. Hieruit volgt
+		\[ 
+			e_j = \sum_{l=0}^{j-1} (Q(\lambda h))^l h \tau_{j-l}\,.
+		\]
+		
+		\subsubsection{Numerieke stabiliteit}
+			We weten 
+			\[ 
+				\abs{e_j} \le \sum_{l=0}^{j-1} \abs{Q(\lambda h)}^l h \abs{\tau_{j-l}}\,. 
+			\]
+			Voor numerieke stabiliteit eisen we $ \abs{Q(\lambda h) \le 1} $. Dit geeft 
+			\[ 
+				\abs{e_j} \le \sum_{l=0}^{j-1} h \abs{\tau_j-l} \le M \tau_{\max}\,, \qquad \text{met $M$ eindig, } M \ge jh, \tau_{\max} = \max \abs{\tau_{j-l}}\,.
+			\]
+		\subsection{Consistentie}
+			We stellen de volgende consistentie-eis.
+			\[ 
+				\lim_{h\downarrow 0} \tau_j = 0\,, \qquad \text{met }\tau_j = \bigO(h^p), p>0\,.
+			\]
+			\begin{voorbeeld}
+				Voor voorwaarts Euler geldt $ \tau_j = \bigO(h) $, dus voorwaarts Euler is een consistente methode.
+			\end{voorbeeld}
 			
+			\begin{theorem}[\indx{Lax equivalentiestelling}] 
+				Indien een numerieke methode numeriek stabiel en consistent is, dan is deze methode ook convergent.
+			\end{theorem}
+			
+			\begin{opm}
+				Bij numerieke methoden met $ \tau_j = \bigO(h^p) $ en numerieke stabiliteit hebben we $ e_j = \bigO(h^p) $.
+			\end{opm}
+		
+		\subsection{\`a la Richardson extrapolatie}
+			Als de exacte oplossing ($ y(t_j,h) $) onbekend is, kunnen we $ p $ bepalen op een manier vergelijkbaar met Richardson extrapolatie. We gebruiken de volgende vergelijkingen.
+			\begin{align}
+				y(t_j,h) - w_j &= e_j = K_1 h^ p + K_2 h^ {p+1} + \dots \approx Kh^p\,, \qquad \text{met $K,p$ onbekend en constant.}\label{ala1} \\
+				y(t_{2j}, \frac{h}{2}) - w_{2j} &= e_{2j} = K(\frac{h}{2})^p \,. \label{ala2} \\
+				y(t_{4j}, \frac{h}{4}) - w_{4j} &= e_{4j} = K(\frac{h}{4})^p \,. \label{ala4} 
+			\end{align}
+			We gebruiken deze vergelijkingen om $p$ te kunnen berekenenen.
+			\begin{align*}
+				\frac{(\ref{ala1})-(\ref{ala2})}{(\ref{ala2})-(\ref{ala4})} &= \frac{w_{2j}-w_j}{w_{4j}-w_{2j}} = \frac{h^p (1-(\frac{1}{2})^p)}{h^p ((\frac{1}{2})^p- (\frac{1}{4})^p)} =\frac{1-(\frac{1}{2})^p}{(\frac{1}{2})^p- (\frac{1}{4})^p} = 2^p\,. \\
+				p &= \log_2\left( \frac{1-(\frac{1}{2})^p}{(\frac{1}{2})^p- (\frac{1}{4})^p} \right)\,.
+			\end{align*}
+			
+			\subsection{Stelsel differentiaal vergelijkingen}
+				\begin{voorbeeld}[Prooidier-roofdier probleem, een gekoppeld stelsel differentiaalvergelijkingen]
+					Stel $\linebreak y_1(t) = \#$konijnen, $ y_2(t) = \# $vossen. Verder geldt
+					\begin{align*}
+						\frac{\d}{\d t} y_1 &= c_1 y_1 - c_2 y_1 y_2 \qquad \text{(voortplanting konijnen - consumptie door vossen)} \\
+						\frac{\d}{\d t} y_2 &= c_3 y_ 1 y_2 - c_4 y_2 \qquad \text{(voortplanting vossen - verhongering vossen)}
+					\end{align*}
+					met beginvoorwaarden $ y_1(t_0), y_2(t_0) $ gegeven. 
+					Dit kunnen we ook schrijven met vectoren. 
+					\[ 
+						\frac{\d \y}{\d t} = \f (\y)\,, \qquad \f = \begin{pmatrix}
+						c_1 y_1 - c_2 y_1 y_2 \\ c_3 y_ 1 y_2 - c_4 y_2
+						\end{pmatrix}, \y = \begin{pmatrix}
+							y_1 \\ y_2
+						\end{pmatrix}.
+					\]
+				\end{voorbeeld}
+				\begin{voorbeeld}[Mathematische slinger]
+					Tweede orde differentiaalvergelijking.
+					\[ 
+					ml\frac{\d^2 \phi}{\d t^2} = -mg\sin \phi \implies \phi '' = \frac{-q}{l} \sin \phi \,.
+					\]
+					We defini\"eren $ y_1 = \phi, y_2 = \frac{\d \phi}{\d t} $. We krijgen nu de volgende differentiaalvergelijking, waar we twee beginvoorwaarden voor nodig hebben, namelijk $ y_1(t_0), \frac{d y_1}{d t}(t_0) $.
+					\[ 
+						\frac{\d}{\d t}\y = \begin{pmatrix}
+							y_2 \\ \frac{-g}{l} \sin y_1
+						\end{pmatrix}.
+					\]
+				\end{voorbeeld}
+				
+				\begin{opm}
+					De numerieke methoden die we eerder hebben gezien (VE, AE, Trapeziumregel, ME) zijn hier hetzelfde als voor scalaire vergelijkingen, maar dan met vectoren.
+				\end{opm}
+				
+				We beschouwen de testvergelijking $ y'= \lambda y, \lambda < 0 $. In vectoren hebben we dan $ \y ' = A \y + \g (t), \y(t)= \y_0 $, met $A$ een matrix die in principe vol is. Voor verstoorde $\y$ hebben we $ \hat{\y}' = A\hat{\y} + \g(t) $. Voor de afrondfout $\epsilon$ hebben we $ \bm{\epsilon}\,' = A\bm{\epsilon} $, met $ \bm{\epsilon}_0 (t_0) = \hat{\y_0}-\y $. Dit stelsel is \indx{gekoppeld}.
+				
+				\textbf{Truc:} voer in $ \bm{\epsilon} = S\bm{\eta} $, met $\eta$ de getransformeerde verstoringen, en $S$ een matrix met als kolommen de eigenvectoren van $A$. Nu hebben we $ S\bm{\eta} \,' = AS\bm{\eta} \implies \bm{\eta}\,' = S^{-1}AS\bm{\eta}$. Dit stelsel is \indx{ontkoppeld}.
+				
+				\textbf{Eis voor fysische stabiliteit van het stelsel}
+				\[ 
+					\lambda_i \in \complex : \text{Re}(\lambda_i) \le 0\, \forall_i\,.
+				\]
+				
+				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \bm{\epsilon_{j+1}} = A \bm{\epsilon_j} + hA\bm{\epsilon_j} = (I + hA)\bm{\epsilon_j} $. Dit is een gekoppeld stelsen, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \bm{\eta_{j+1}} = S^{-1} (I+hA)S\bm{\eta_j} = (I+h\Lambda)\bm{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is ongeschikt voor zuiver imaginaire $i$.
+				
+				Voor achterwaarts Euler is het stabiliteitsgebied alles buiten de cirkel rond $ 1+0i $ met straal $1$. Deze methode is dus veel geschikter voor zuiver imaginaire $i$.
+				
 	\newpage
 	\section{College 6}
 	
@@ -421,7 +523,7 @@
 		   is, maar zich anders gedraagt bij een kleiner wordende $h$.
 		  
 	\subsection{\indx{Stijve differentiaalvergelijkingen}}
-		Gegeven de vergelijking $\y'=\f (t,\y )$, bepalend voor fysische stabiliteit zijn de eigenwaarden $\lambda_i$ van $\frac{\partial \f  }{\partial \y }$. Bij Voorwaarts Euler hebben we een beperkt stabiliteitsgebied, namelijk de cirkel met straal 1 en middelpunt (-1,0) $(1+h \mu_i)^2 +h \nu_i^2 \le 1 \forall_i$ waarbij $h\mu_i$ op de 'x-as' en $h \nu_i$ op de 'y-as' staat. Daarom kan het voorkomen dat er \'e\'en eigenwaarde heel ver weg ligt waardoor je $h$ heel erg klein moet nemen om alle eigenwaarden in de cirkel te krijgen. Dit is een typisch stijf probleem.		  
+		Gegeven de vergelijking $\y'=\f (t,\y )$, bepalend voor fysische stabiliteit zijn de eigenwaarden $\lambda_i$ van $\frac{\partial \f  }{\partial \y }$. Bij Voorwaarts Euler hebben we een beperkt stabiliteitsgebied, namelijk de cirkel met straal 1 en middelpunt (-1,0) $(1+h \mu_i)^2 +h \nu_i^2 \le 1\ \forall_i$ waarbij $h\mu_i$ op de 'x-as' en $h \nu_i$ op de 'y-as' staat. Daarom kan het voorkomen dat er \'e\'en eigenwaarde heel ver weg ligt waardoor je $h$ heel erg klein moet nemen om alle eigenwaarden in de cirkel te krijgen. Dit is een typisch stijf probleem.		  
 		
 		Bij impliciete methoden zoals Achterwaarts Euler en de Trapeziumregel is het stabiliteitsgebied zo groot dat je geen kleine $h$ hoeft te nemen.
 		
@@ -431,7 +533,7 @@
 		
 		We maken een differentiaalvergelijking door uit te gaan van een oplossing $y(t) = C e^{\lambda t} +F(t)$, met $C$ een constante en $F(t)$ een particuliere oplossing. Hieruit volgt $y'(t) = C\lambda e^{\lambda t} + F'(t)$.
 		
-		Als we dit terugsubstitueren krgijen we
+		Als we dit terugsubstitueren krijgen we
 		\begin{align*}
 			C \lambda e^{\lambda t} + F'(t) &= \lambda (C e^{\lambda t} +F(t)) + g(t) \\
 			g(t) &= F'(t) - \lambda F(t)
