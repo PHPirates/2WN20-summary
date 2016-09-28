@@ -449,7 +449,7 @@
 				p &= \log_2\left( \frac{1-(\frac{1}{2})^p}{(\frac{1}{2})^p- (\frac{1}{4})^p} \right)\,.
 			\end{align*}
 			
-			\subsection{Stelsel differentiaal vergelijkingen}
+			\subsection{Stelsels differentiaalvergelijkingen}
 				\begin{voorbeeld}[Prooidier-roofdier probleem, een gekoppeld stelsel differentiaalvergelijkingen]
 					Stel $\linebreak y_1(t) = \#$konijnen, $ y_2(t) = \# $vossen. Verder geldt
 					\begin{align*}
@@ -492,7 +492,7 @@
 					\lambda_i \in \complex : \text{Re}(\lambda_i) \le 0\, \forall_i\,.
 				\]
 				
-				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \bm{\epsilon_{j+1}} = A \bm{\epsilon_j} + hA\bm{\epsilon_j} = (I + hA)\bm{\epsilon_j} $. Dit is een gekoppeld stelsen, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \bm{\eta_{j+1}} = S^{-1} (I+hA)S\bm{\eta_j} = (I+h\Lambda)\bm{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is ongeschikt voor zuiver imaginaire $i$.
+				\paragraph{Stabiliteitsanalyse van voorwaarts Euler.} Er geldt $ \bm{\epsilon_{j+1}} = A \bm{\epsilon_j} + hA\bm{\epsilon_j} = (I + hA)\bm{\epsilon_j} $. Dit is een gekoppeld stelsel, en dit stelsel is numeriek stabiel als $ ||I+hA||\le 1 $. We passen de truc toe en krijgen $ \bm{\eta_{j+1}} = S^{-1} (I+hA)S\bm{\eta_j} = (I+h\Lambda)\bm{\eta_j} $. Dit stelsel is ontkoppeld, en numeriek stabiel voor $ \abs{1+h\lambda_i} \le 1 $. We zien dus dat dit de versterkingsfactor is met de eigenwaarden $\lambda_j$ in plaats van $\lambda$ in het scalaire geval. Het stabiliteitsgebied voor voorwaarts Euler is de cirkel rond $ -1+0i $ met straal $1$. Deze methode is dus ongeschikt voor zuiver imaginaire $i$.
 				
 				Voor achterwaarts Euler is het stabiliteitsgebied alles buiten de cirkel rond $ 1+0i $ met straal $1$. Deze methode is dus veel geschikter voor zuiver imaginaire $i$.
 				
@@ -589,6 +589,64 @@
 		                  
 
 	\section{College 7}
+	
+		\subsection{\indx{Tweepuntsrandwaardeproblemen}}
+		Tweepuntsrandwaardeproblemen zijn problemen met twee 'beginwaardes', bijvoorbeeld een staaf die in het midden verwarmd wordt maar aan de uiteindes een constante temperatuur heeft. Hierdoor leidt het tot conflicten als je met dezelfde technieken die we tot nu toe gebruikt hebben gaat werken vanuit een van de twee randpunten.
+		
+		In het algemeen kijken we naar een $2^e$ orde differentiaalvergelijking zoals
+		\[ 
+			- \frac{\d}{\d x} \left( p(x) \frac{\d y}{\d x}\right) + q(x) \frac{\d y}{\d x} + r(x) y = f(x)
+		 \]
+		 met $y=y(x)$. De eerste term aan de linkerkant heet de \indx{diffusieterm}, de tweede de \indx{convectieterm}, de derde de \indx{reactieterm} en de rechterkant heet de \textit{bron}\index{bron (tweepuntsrandwaarde)}.
+		 
+		 \subsubsection{Randvoorwaarden}
+		 In het algemeen zijn de randvoorwaarden van de vorm
+		 \begin{align*}
+			 a_0 y(x=0) + f_0 \frac{\d y}{\d x} (x=0) &= c_0 \\
+			 a_1 y(x=1) + f_1 \frac{\d y}{\d x} (x=1) &= c_1 \,.
+		 \end{align*}
+		 We onderscheiden drie soorten randvoorwaarden,
+		 \begin{itemize}
+		 	\item als $a_0 \neq 0, b_0 \neq 0$ dan heet het een \indx{Robin randvoorwaarde}, oftewel een gemengde randvoorwaarde met de oplossing \'en de afgeleide.
+		 	\item als $a_0 \neq 0, b_0 = 0$ dan heet het een \indx{Dirichlet randvoorwaarde} die dus alleen de oplossing bevat.
+		 	\item als $a_0 =0, b_0 \neq 0$ dan heet het een \indx{Neumann randvoorwaarde} met dus alleen de afgeleide.
+		 \end{itemize}
+		 
+		 \subsubsection{Testvergelijking}
+		 We kunnen voor de testvergelijking 
+		 \[ 
+			 - \frac{\d^2 y}{\d x^2} + q(x) y = f(x)
+		  \]
+		  met (Dirichlet) randvoorwaarden $y(0) = \alpha, y(1) =\beta$
+		  eerst het rekendomein discretiseren en daarna herschrijven als eindige differentie, zodat we een gekoppeld stelsel krijgen in de vorm $A \w = \f$. 
+		  
+		  Stel dit is een verstoorde vergelijking van de vorm $A (\w + \Delta \w ) = \f + \Delta \f $, dan volgt dat
+		  \[ 
+			  \frac{|| \Delta \w ||}{||\w ||} \le \frac{\lambda_{\max}}{\lambda_{\min}} \frac{|| \Delta \f ||}{|| \f ||}
+		   \] 
+		   omdat $A$ symmetrisch is en dus $||A|| =\lambda_{max}$, de grootste eigenwaarde van $A$. Dit is te lezen als de relatieve verstoring in de oplossing is kleiner of gelijk aan een factor keer de relatieve verstoring in $\f $. Als deze factor groot is, dan is $A$ \indx{slecht geconditioneerd}\index{geconditioneerd (slecht)}.
+		   
+		   We zien ook dat het gevaarlijk is als $\lambda_{\min}=0$.
+		   
+		   De stabiliteitsanalyse gaan analoog aan de problemen met een beginvoorwaarde.
+		   
+		   \subsubsection{\textit{Stelling van Gerschgorin}\index{Gerschgorin, stelling van}}
+		   Om bijvoorbeeld te laten zien dat er geen eigenwaarde nul is bij een grote matrix, kan deze stelling van pas komen. 
+		   \begin{theorem}
+			   	Zij $A$ een matrix van de vorm
+			   	\[ 
+				   	\begin{pmatrix}
+					   	a_{11} & a_{12} & \dots \\
+					   	a_{21} & a_{22} & \dots \\
+					   	\vdots & \vdots & \ddots \\
+					   	 &  & & a_{nn}
+				   	\end{pmatrix}
+			   	 \]
+			   	 dan liggen de eigenwaarden $\lambda_i$ in de vereniging van cirkels in het complexe vlak 
+			   	 \[ 
+				   	 \abs{z -a_{ii}} \le \sum_{j=1, j\neq i}^n \abs{a_{ij}} \,.
+			   	  \]
+		   \end{theorem}
 
 	\section{College 8}
 	
