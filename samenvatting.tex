@@ -571,6 +571,11 @@
 			\end{align*}
 			De Simpsonregel is een integratieregel voor $\int_{t_j}^{t_{j+1}} f(\tau,y) \d \tau$ net als Voorwaarts Euler of de Trapeziumregel.
 			
+			De versterkingsfactor van RK4 is 
+			\[ 
+				\abs{1+h \lambda + \frac{1}{2}(h \lambda)^2 + \frac{1}{3!}(h\lambda)^3 + \frac{1}{4!}(h\lambda)^4 }\,.
+				\]
+				
 		\subsection{Meerstapsmethoden}
 			We beschouwen $y'=f(t,y)$ met de Trapeziumregel, $w_{j+1} = w_j + \frac{h}{2} (f(t_j,w_j) + f(t_{j+1}, w_{j+1}))$. Nu gaan we $f$ extrapoleren zodat $f(t_{j+1}, w_{j+1})$ vervangend wordt door $2f(t_j,w_j)-f(t_{j-1},w_{j-1})$. Dit is een $O(h^2)$ extrapolatie vanuit $t_{j-1},t_j$.
 			
