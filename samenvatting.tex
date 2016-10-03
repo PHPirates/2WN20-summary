@@ -607,8 +607,8 @@
 		 \subsubsection{Randvoorwaarden}
 		 In het algemeen zijn de randvoorwaarden van de vorm
 		 \begin{align*}
-			 a_0 y(x=0) + f_0 \frac{\d y}{\d x} (x=0) &= c_0 \\
-			 a_1 y(x=1) + f_1 \frac{\d y}{\d x} (x=1) &= c_1 \,.
+			 a_0 y(x=0) + b_0 \frac{\d y}{\d x} (x=0) &= c_0 \\
+			 a_1 y(x=1) + b_1 \frac{\d y}{\d x} (x=1) &= c_1 \,.
 		 \end{align*}
 		 We onderscheiden drie soorten randvoorwaarden,
 		 \begin{itemize}
@@ -653,8 +653,99 @@
 			   	  \]
 		   \end{theorem}
 
+	\newpage
 	\section{College 8}
-	
+		\subsection{Vervolg tweepuntsrandwaardeproblemen}
+			Zij $ -\frac{d^2 y}{dx^2} + q(x)y = f(x), x\in [0,1]$ een tweede orde differentiaalvergelijking met beginwaarden $ y(0)=\alpha, y(1)=\beta $. De tweede orde discrete vergelijking ziet er als volgt uit, met $ y(0) = y_0, y(1) = y_{n+1} $.
+			\[ 
+				-\frac{w_{j+1}-2w_j+w_{j-1}}{h^2} + q_j w_j = f_j\,, \qquad j=1\dots n\,.
+			\]
+			Dit kunnen we schrijven als $ A\w = \f $, oftewel 
+			\[
+				\left[ -\frac{1}{h^2} \begin{pmatrix}
+					-2 & 1 & & &\\
+					1 & -2 & 1 & & \\
+					& \ddots & \ddots & \ddots & \\
+					& & 1 & -2 & 1 \\
+					& & & 1 & -2  
+				\end{pmatrix} + \begin{pmatrix}
+					q_1 & & \\
+					& \ddots & \\
+					& & q_n
+				\end{pmatrix} \right] \begin{pmatrix}
+					w _1 \\
+					\vdots \\
+					w_n
+				\end{pmatrix} = \begin{pmatrix}
+					f_1 + \frac{\alpha}{h^2} \\
+					f_2 \\
+					\vdots \\
+					f_{n-1} \\
+					f_n + \frac{\beta}{h^2}
+				\end{pmatrix}\,.
+			\]
+			Voor de exacte oplossingsvector $\y$ en de discrete oplossingsvector $\w$ hebben we 
+			\begin{align*}
+				\y &\xrightarrow{A} A\y \\
+				\w &\xrightarrow{A} A\w\,.
+			\end{align*}
+			Hetgeen voor de pijl noemen we de \indx{oplossingsruimte}, hier bekijken we de globale discretisatiefout $ \e = \y - \w $. Hetgeen na de pijl noemen we de \indx{operatorruimte}, hier bekijken we de lokale afbreekfout $ \bep = A(\y -\w) $. Hieruit volgt $ \e = A^{-1}\bep \implies ||\e|| \le ||A^{-1}||\cdot||\bep||$.
+		
+			Nu gaan we kijken naar Neumann randvoorwaarden. De randvoorwaarde $ y(1) = \beta $ is nu geen randvoorwaarde, maar in plaats daar van hebben we gegeven $ y'(1) = 0 $. We hebben nu geen rechterrandvoorwaarde, en we willen dus het punt $n+1$ betrekken in onze discrete vergelijking. Dit doen we door een virtueel punt te introduceren en gebruik te maken van de tweede orde centrale discretisatie voor $ y'(1)=0 $. Dan volgt als discrete $ (n+1)^e $ vergelijking $ -2\frac{-w_{n+1}+w_n}{h^2} + q_{n+1}w_{n+1} = f_{n+1} $. Deze kunnen we toevoegen aan het stelsel, dit geeft
+			\[ 
+				\left[ -\frac{1}{h^2} \begin{pmatrix}
+				-2 & 1 & & &\\
+				1 & -2 & 1 & & \\
+				& \ddots & \ddots & \ddots & \\
+				& & 1 & -2 & 1 \\
+				& & & 2 & -2  
+				\end{pmatrix} + \begin{pmatrix}
+				q_1 & & \\
+				& \ddots & \\
+				& & q_n
+				\end{pmatrix} \right] \begin{pmatrix}
+				w _1 \\
+				\vdots \\
+				w_n
+				\end{pmatrix} = \begin{pmatrix}
+				f_1 + \frac{\alpha}{h^2} \\
+				f_2 \\
+				\vdots \\
+				f_n \\
+				f_{n+1}
+				\end{pmatrix}\,.
+			\]
+			\begin{opm}
+				De lokale afbreekfout $ \bep_{n+1} = \bigO(h) $, en niet $ \bigO(h^2) $. De globale discretisatiefout $ \e $ blijft gelukkig wel $ \bigO(h^2) $.
+			\end{opm}
+			\begin{opm}
+				Als we Neumannrandvoorwaarden bekijken voor links en rechts, oftewel $ y'(0) = 0, y'(1) = 0 $ dan is de oplossing tot op een constante nauwkeurig bepaald en bestaat er geen unieke oplossing.
+			\end{opm}
+			
+			\subsection{Convectie-diffusievergelijking}
+				We beschouwen de testvergelijking $ -y'' + vy' = 0, x\in [0,1] $, met randvoorwaarden $ y(0) = \alpha, y(1)=\beta $. 
+				\begin{opm}
+					Convectie heeft een richtingsvoorkeur, terwijl diffusie alle kanten op gaat. We hebben hier "illegaal" randvoorwaarden $ y(1) = \beta $ opgelegd aan convectie, formeel mag dit niet.
+				\end{opm}
+				Beter is om \indx{upwind discretisatie} te gebruiken, en alleen gebruik te maken van informatie van links. Dit geeft $ vy_j' \to v \frac{w_j-w_{j-1}}{h} $. Als discrete vergelijking hebben we nu
+				\[ 
+					- \frac{w_{j+1}-2w_j + w_{j-1}}{h^2} + v \frac{w_j-w_{j-1}}{h} = 0\,.
+				\]
+				Dit vermenigvuldigen met $ h^2 $ geeft $ -w_{j+1}+2w_j-w_{j-1}+vh(w_j-w_{j-1}) = 0 $. In matrixvorm is dit 
+				\[ 
+				\begin{pmatrix}
+					2+vh & -1 & & \\
+					-1-vh & 2+vh & -1 & \\
+					& \ddots & \ddots & \ddots \\
+				\end{pmatrix}
+				\begin{pmatrix}
+					w_1 \\ \vdots \\ w_n
+				\end{pmatrix}
+				= \begin{pmatrix}
+					\alpha(1+vh) \\ 0\\ \vdots \\ 0 \\ \beta
+				\end{pmatrix}
+				\]
+				
 	\section{College 9}
 	
 	\section{College 10}

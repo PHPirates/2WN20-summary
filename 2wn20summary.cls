@@ -2,6 +2,8 @@
 \ProvidesClass{2wn20summary}[]
 
 %CHANGELOG
+%2016/10/3
+% added \ep and \bep, epsilon and bold epsilon
 %2016/9/10
 %added \fl for floats
 %2016/06/18
@@ -136,6 +138,10 @@
 \let\temp\epsilon
 \let\epsilon\varepsilon
 \let\varepsilon\temp
+
+% \ep for epsilon, \bep for bold epsilon
+\newcommand{\ep}{\epsilon}
+\newcommand{\bep}{\bm{\epsilon}}
 
 \stackMath
 \renewcommand\TAB@delim[1]{\displaystyle#1}
