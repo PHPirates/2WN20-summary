@@ -657,6 +657,55 @@
 	
 	\section{College 9}
 	
+	\subsection{Numerieke methoden voor \indx{begin-randwaardeproblemen}}
+		We beschouwen een \indx{instationaire vergelijking}. Deze heeft een integraalvorm en differentiaalvorm, waarbij de laatste hogere eisen aan differentieerbaarheid stelt.
+		
+		Deze vergelijking is van de vorm ($y=y(x,t)$)
+		\[ 
+			\frac{\partial y}{\partial t} = \frac{\partial^2 y}{\partial x^2} \,,
+		 \]
+		 met de voor de linkerkant vereiste beginvoorwaarde $y(x,t=0)=y_0(x)$ en de voor de rechterkant vereiste randvoorwaarden $y(x=0,t)=y_l (t) ,\ y(x=1,t)=y_r(t)$.
+		 Merk op dat dit \textbf{volledig continu} is.
+		 
+		 Nu gaat we in twee stappen discretiseren,
+		 \begin{itemize}
+		 	\item in de $x$-richting (hoofdstuk 7) 
+		 	\item in de tijd (hoofdstuk 6).
+		 \end{itemize}
+	 
+		 In de eerste stap maken we een \textbf{semi-discrete} vergelijking
+		 \[ 
+			 \frac{\d u_i}{\d t} = \frac{u_{i-1}-2u_i+u_{i+1}}{h^2} \quad u_i=u_i(t).
+		  \]
+		  Nu zijn de randwaarden $u_{i=0}(t)=y_l(t)$ en $u_{i=n+1}=y_r(t)$, en de beginwaarde $u_i(t=0) = y_0 (t)$.
+		  
+		  Dit is te schrijven in vectorvorm als 
+		  \[ 
+			  \frac{\d \u }{\d t} = K \u + \r 
+		   \]
+		   waarbij
+		   \[ 
+			   K =\frac{1}{h^2} \begin{pmatrix}
+			   -2 & 1 & & &\\
+			   1 & -2 & 1 & & \\
+			   & \ddots & \ddots & \ddots & \\
+			   & & 1 & -2 & 1 \\
+			   & & & 1 & -2  
+			   \end{pmatrix},\ \r = 
+			   \vvec{y_l (t) /h^2 \\
+			   0 \\
+			   \vdots \\
+				0 \\
+				y_r (t) /h^2}, \ \u = \vvec{u_1(t) \\ u_2(t) \\ \vdots \\ u_n(t)}.
+		    \]
+		    Om nu een \textbf{volledig discrete} vergelijking te krijgen, gebruiken we bijvoorbeeld Voorwaarts Euler, zodat
+		    \[ 
+			    \frac{w_i^{j+1}-w_i^j}{\Delta t} = \frac{w_{i-1}^j -2w_i^j +w_{i+1}^j}{h^2} + r_i^j \,.
+		     \]
+		     Hieruit zien we het \indx{differentiemolecuul} of \indx{stencil} van Voorwaarts Euler, waarin we het roosterpunt $w_i^{j+1}$ uitrekenen aan de hand van drie roosterpunten daaronder: $w_{i-1}^j,\ w_i^j$ en $w_{i+1}^j$.
+		     
+		    %todo not sure what the rest is about?
+	
 	\section{College 10}
 
 
