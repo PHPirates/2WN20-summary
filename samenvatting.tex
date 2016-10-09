@@ -691,7 +691,7 @@
 			\end{align*}
 			Hetgeen voor de pijl noemen we de \indx{oplossingsruimte}, hier bekijken we de globale discretisatiefout $ \e = \y - \w $. Hetgeen na de pijl noemen we de \indx{operatorruimte}, hier bekijken we de lokale afbreekfout $ \bep = A(\y -\w) $. Hieruit volgt $ \e = A^{-1}\bep \implies ||\e|| \le ||A^{-1}||\cdot||\bep||$.
 		
-			Nu gaan we kijken naar Neumann randvoorwaarden. De randvoorwaarde $ y(1) = \beta $ is nu geen randvoorwaarde, maar in plaats daar van hebben we gegeven $ y'(1) = 0 $. We hebben nu geen rechterrandvoorwaarde, en we willen dus het punt $n+1$ betrekken in onze discrete vergelijking. Dit doen we door een virtueel punt te introduceren en gebruik te maken van de tweede orde centrale discretisatie voor $ y'(1)=0 $. Dan volgt als discrete $ (n+1)^e $ vergelijking $ -2\frac{-w_{n+1}+w_n}{h^2} + q_{n+1}w_{n+1} = f_{n+1} $. Deze kunnen we toevoegen aan het stelsel, dit geeft
+			Nu vervangen we de Dirichlet randvoorwaarde $y(1)=\beta$ door de Neumann randvoorwaarde $y'(1)=0$. Dit is vervelender, maar een oplossing is het punt $n+1$ betrekken in onze discrete vergelijking. Dit doen we door een virtueel punt te introduceren en gebruik te maken van de tweede orde centrale discretisatie voor $ y'(1)=0 $. Dan volgt als discrete $ (n+1)^e $ vergelijking $ -2\frac{-w_{n+1}+w_n}{h^2} + q_{n+1}w_{n+1} = f_{n+1} $. Deze kunnen we toevoegen aan het stelsel, dit geeft
 			\[ 
 				\left[ -\frac{1}{h^2} \begin{pmatrix}
 				-2 & 1 & & &\\
@@ -719,13 +719,13 @@
 				De lokale afbreekfout $ \bep_{n+1} = \bigO(h) $, en niet $ \bigO(h^2) $. De globale discretisatiefout $ \e $ blijft gelukkig wel $ \bigO(h^2) $.
 			\end{opm}
 			\begin{opm}
-				Als we Neumannrandvoorwaarden bekijken voor links en rechts, oftewel $ y'(0) = 0, y'(1) = 0 $ dan is de oplossing tot op een constante nauwkeurig bepaald en bestaat er geen unieke oplossing.
+				Als we Neumann randvoorwaarden bekijken voor links en rechts, oftewel $ y'(0) = 0, y'(1) = 0 $ dan is de oplossing tot op een constante nauwkeurig bepaald en bestaat er geen unieke oplossing.
 			\end{opm}
 			
 			\subsection{Convectie-diffusievergelijking}
 				We beschouwen de testvergelijking $ -y'' + vy' = 0, x\in [0,1] $, met randvoorwaarden $ y(0) = \alpha, y(1)=\beta $. 
 				\begin{opm}
-					Convectie heeft een richtingsvoorkeur, terwijl diffusie alle kanten op gaat. We hebben hier "illegaal" randvoorwaarden $ y(1) = \beta $ opgelegd aan convectie, formeel mag dit niet.
+					Convectie heeft een richtingsvoorkeur, terwijl diffusie alle kanten op gaat. We hebben hier ``illegaal'' randvoorwaarden (dus ook $ y(1) = \beta $) opgelegd aan convectie, formeel mag dit niet.
 				\end{opm}
 				Beter is om \indx{upwind discretisatie} te gebruiken, en alleen gebruik te maken van informatie van links. Dit geeft $ vy_j' \to v \frac{w_j-w_{j-1}}{h} $. Als discrete vergelijking hebben we nu
 				\[ 
@@ -745,6 +745,7 @@
 					\alpha(1+vh) \\ 0\\ \vdots \\ 0 \\ \beta
 				\end{pmatrix}
 				\]
+				Uit de stelling van Gershgorin volgt verder dat de gewone centrale discretisatie veilig is voor mogelijke nul-eigenwaarden als $vh<2$, $vh\ge 2$ is dus gevaarlijk. Bij upwind discretisatie is er echter altijd een kans op een nul-eigenwaarde.
 				
 	\section{College 9}
 	
