@@ -750,6 +750,36 @@
 	\section{College 9}
 	
 	\section{College 10}
+		\subsection{Bepaling nulpunten niet-lineaire vergelijkingen}
+			Zij $f(x)$ een functie. Stel $ f(p) = 0 $, dan noemen we $p$ een \indx{nulpunt} van de functie. Om nulpunten te bepalen/benaderen kunnen we de volgende methodes gebruiken.
+			\begin{itemize}
+				\item Bisectemethode
+				\item Vast punt %TODO How do we determine roots with this???
+				\item Newton-Rhapson iteratie
+			\end{itemize}
+			\subsubsection{Bisectiemethode \textmd{(Gebaseerd op de tussenwaardenstelling)}}
+				Zij $f(x)$ een functie, continu op $ [a,b] $. Als $ f(a)\cdot f(b) < 0 $, dan volgt uit de tussenwaardenstelling dat er een $p \in (a,b)$ is zodanig dat $ f(p)=0 $. 
+				
+				We schatten $p_1=\frac{1}{2}(a+b)$. Dan schatten we 
+				\[ 
+					\begin{cases}
+						p_2 = \frac{1}{2}(a+p_1) & \text{als } f(a)\cdot f(p_1)<0 \\
+						p_2 = \frac{1}{2}(p_1+b) & \text{als } f(p_1)\cdot f(b)<0\,.
+					\end{cases}
+				\]
+				Dit zetten we door, en hiermee sluiten we het nulpunt $p$ in met een vooraf bepaalde nauwkeurigheid. 
+				
+				\begin{theorem}
+					Zij $f$ een functie continu op $[a,b]$ en $ f(a)\cdot f(b) <0 $. Dan geldt 
+					\[ 
+						\abs{p_n-p} \le \frac{b-a}{2^{n+1}}\,.
+					\]
+				\end{theorem}
+				Met deze stelling kunnen we vooraf berekenen hoe groot $n$ moet zijn om bij een gekozen $a, b$ een voorgeschreven nauwkeurigheid $ \abs{p_n-p} $ te bereiken.
+				
+				\begin{opm}
+					De bisectiemethode is niet eenvoudig uitbreidbaar naar multi-D.
+				\end{opm}
 
 
 	\phantomsection
