@@ -754,8 +754,8 @@
 		\subsection{Bepaling nulpunten niet-lineaire vergelijkingen}
 			Zij $f(x)$ een functie. Stel $ f(p) = 0 $, dan noemen we $p$ een \indx{nulpunt} van de functie. Om nulpunten te bepalen/benaderen kunnen we de volgende methodes gebruiken.
 			\begin{itemize}
-				\item Bisectemethode
-				\item Vast punt %TODO How do we determine roots with this???
+				\item Bisectiemethode
+				\item Vast punt 
 				\item Newton-Rhapson iteratie
 			\end{itemize}
 			\subsubsection{Bisectiemethode \textmd{(Gebaseerd op de tussenwaardenstelling)}}
@@ -768,7 +768,7 @@
 						p_2 = \frac{1}{2}(p_1+b) & \text{als } f(p_1)\cdot f(b)<0\,.
 					\end{cases}
 				\]
-				Dit zetten we door, en hiermee sluiten we het nulpunt $p$ in met een vooraf bepaalde nauwkeurigheid. 
+				Dit zetten we door, en hiermee sluiten we een nulpunt $p$ in met een vooraf bepaalde nauwkeurigheid. 
 				
 				\begin{theorem}
 					Zij $f$ een functie continu op $[a,b]$ en $ f(a)\cdot f(b) <0 $. Dan geldt 
@@ -787,6 +787,7 @@
 				\[ 
 					g(p)=p\,.
 				\]
+				Er is altijd een functie $g(x)$ te vinden zodanig dat een vast punt van $g$ een nulpunt van $f$ is, bijvoorbeeld $g(x)=x-cf(x),\ c\ne 0$. 
 				\begin{theonum}\label{10-1}
 					Zij $g(x)$ continu op $ [a,b] $, en $ g(x) \in [a,b], x \in [a,b] $. Dan is er tenminste \'e\'en vast punt $ p \in [a,b] $.
 				\end{theonum}
@@ -807,8 +808,8 @@
 					We beschouwen $ f(x) = x^3 + 3x - 4, x \in [0,2] $. We weten dat $p=1$ een nulpunt is, er geldt namelijk $ f(p=1)=0 $. Nu kiezen we een $g(x)$ bij $f(x)$. We willen nulpunten $p$ bepalen, dus gebruiken we $ f(p) = p^3 + 3p - 4 = 0 $. Bij deze functie hebben we verschillende mogelijkheden voor $g(x)$.
 					\begin{itemize}
 						\item $ p = \frac{4}{p^2+3} \implies p_{n+1}=\frac{4}{p_n^2 + 3} \implies g(p_n) = \frac{4}{p_n^2 + 3} \implies g(x) = \frac{4}{x^2 + 3}$. We zien dat dit netjes naar $1$ convergeert.
-						\item $ p_{n+1} = \frac{4-p_n^3}{3} \implies g(x) = \frac{4-x^3}{3} $. Dit voldoet niet aan stelling \ref{10-1}, want $ g(x) \not \in [0,2] $.
-						\item $ p_{n+1} = \frac{4-3p_n}{p_n^2} \implies g(x) = \frac{4-3x}{x^2}$. Dit divergeert! voor $ x \in [0,2] $ geldt namelijk dat $ g(x) \in (-\infty,\infty) $.
+						\item $ p_{n+1} = \frac{4-p_n^3}{3} \implies g(x) = \frac{4-x^3}{3} $. Dit voldoet niet aan stelling \ref{10-1}, want $ g(x) \not \in [0,2]\ \forall_x $.
+						\item $ p_{n+1} = \frac{4-3p_n}{p_n^2} \implies g(x) = \frac{4-3x}{x^2}$. Dit divergeert! Voor $ x \in [0,2] $ geldt namelijk dat $ g(x) \in (-\infty,\infty) $.
 					\end{itemize}
 				\end{voorbeeld}
 				
@@ -826,7 +827,7 @@
 				Kies een $ p_0 $ en bereken $ f(p_0), f'(p_0) \to p_1$ etc.
 				
 				\begin{opm}
-					Vaste punt interaties garanderen \textbf{geen} convergentie. Wel zijn ze uitbreidbaar naar stelsels.
+					Vastepunt-iteraties garanderen \textbf{geen} convergentie. Wel zijn ze uitbreidbaar naar stelsels.
 				\end{opm}
 
 	\phantomsection
