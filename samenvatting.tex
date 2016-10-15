@@ -527,6 +527,14 @@
 		
 		Bij impliciete methoden zoals Achterwaarts Euler en de Trapeziumregel is het stabiliteitsgebied zo groot dat je geen kleine $h$ hoeft te nemen.
 		
+		\begin{define}[\indx{Superstabiel}]
+			Een methode is \textit{superstabiel} als hij stabiel is en
+			\[ 
+				\lim_{\lambda h \to -\infty} \abs{Q(\lambda h)} < 1.
+			 \]
+			 We zien dat bijvoorbeeld Bakward Euler superstabiel is, terwijl de Trapeziumregel dat niet is (de limiet is 1).
+		\end{define}
+		
 	\subsection{\indx{Method of manufactured solutions}}
 	
 		We gaan hier uit van een scalaire, lineaire, inhomogene differentiaalvergelijking $y'=\lambda y + g(t)$.
