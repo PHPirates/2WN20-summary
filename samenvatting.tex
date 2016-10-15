@@ -655,6 +655,7 @@
 
 	\section{College 8}
 	
+	\newpage
 	\section{College 9}
 	
 	\subsection{Numerieke methoden voor \indx{begin-randwaardeproblemen}}
@@ -704,6 +705,11 @@
 		     \]
 		     Hieruit zien we het \indx{differentiemolecuul} of \indx{stencil} van Voorwaarts Euler, waarin we het roosterpunt $w_i^{j+1}$ uitrekenen aan de hand van drie roosterpunten daaronder: $w_{i-1}^j,\ w_i^j$ en $w_{i+1}^j$.
 		     
+		     \subsubsection{Stabiliteitseis $\Delta t$}
+			     We hebben $ \frac{\d \y }{\d t} = A\y + \g (t) $. Er volgt $ \Delta t \le \frac{2}{\lambda_{\max}} $, waarbij $\lambda_{\max}$ de grootste eigenwaarde is van $A$. We schatten $\lambda_{\max}$ met Gershgorin, hieruit volgt $ \lambda_{\max} \le \frac{4}{h^2} $. Dit geeft $ \Delta t \le \frac{2}{\frac{4}{h^2}} = \frac{h^2}{2} $. We zien dat er voor Voorwaarts Euler strenge stabiliteitseisen gelden ($ h \to \frac{h}{2} \implies \Delta t \to \frac{\Delta t}{4} $), oftewel VE is duur. Maar wel eenvoudig. 
+			     
+			     \textbf{Achterwaarts Euler.} Als we voor Achterwaarts Euler hetzelfde doen, zien we dat AE voor $ \Delta t $ onvoorwaardelijk stabiel is.
+		
 		    %todo not sure what the rest is about?
 	
 	\section{College 10}
