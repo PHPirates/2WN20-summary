@@ -82,6 +82,7 @@
 \newtheorem*{voorbeeld}{Voorbeeld}
 \newtheorem*{define}{Definitie}
 \newtheorem*{theorem}{Stelling}
+\newtheorem{theonum}{Stelling}
 \newtheorem*{lemma}{Lemma}
 \newtheorem*{opm}{Opmerking}
 \newtheorem*{gevolg}{Gevolg}

@@ -529,12 +529,12 @@
 		
 		\begin{define}[\indx{Superstabiel}]
 			Een methode is \textit{superstabiel} als hij stabiel is en
-			\[ 
+			\[
 				\lim_{\lambda h \to -\infty} \abs{Q(\lambda h)} < 1.
 			 \]
 			 We zien dat bijvoorbeeld Bakward Euler superstabiel is, terwijl de Trapeziumregel dat niet is (de limiet is 1).
 		\end{define}
-		
+
 	\subsection{\indx{Method of manufactured solutions}}
 	
 		We gaan hier uit van een scalaire, lineaire, inhomogene differentiaalvergelijking $y'=\lambda y + g(t)$.
@@ -757,6 +757,7 @@
 				
 	\section{College 9}
 	
+	\newpage
 	\section{College 10}
 		\subsection{Bepaling nulpunten niet-lineaire vergelijkingen}
 			Zij $f(x)$ een functie. Stel $ f(p) = 0 $, dan noemen we $p$ een \indx{nulpunt} van de functie. Om nulpunten te bepalen/benaderen kunnen we de volgende methodes gebruiken.
@@ -789,42 +790,88 @@
 					De bisectiemethode is niet eenvoudig uitbreidbaar naar multi-D.
 				\end{opm}
 
-	\newpage
+			\subsubsection{Vast punt (fixed point)}
+				Een punt $p$ heet een \indx{vast punt} als geldt
+				\[
+					g(p)=p\,.
+				\]
+				\begin{theonum}\label{10-1}
+					Zij $g(x)$ continu op $ [a,b] $, en $ g(x) \in [a,b], x \in [a,b] $. Dan is er tenminste \'e\'en vast punt $ p \in [a,b] $.
+				\end{theonum}
+
+				\begin{theonum}[Gevolg van stelling \ref{10-1}]\label{10-2}
+					Als $ \abs{g'(x)} < 1 $, dan is $p$ een uniek vast punt.
+				\end{theonum}
+				We kunnen punten ook beschrijven door middel van \indx{iteraties}. Als een punt een vast punt is geldt er
+				\[
+					p_{n+1} = g(p_n), \qquad n=0,1,\dotsc,N\,.
+				\]
+				\begin{theorem}
+					Als geldt $ \lim_{n \to \infty}p_n = p^* $, dan is $p^*$ een vast punt van $g$.
+				\end{theorem}
+				Dus als $ p_{n+1} = g(p_n) $ convergeert naar een punt $p^*$, dan is $ p^*=g(p^*) $ een vast punt.
+
+				\begin{voorbeeld}
+					We beschouwen $ f(x) = x^3 + 3x - 4, x \in [0,2] $. We weten dat $p=1$ een nulpunt is, er geldt namelijk $ f(p=1)=0 $. Nu kiezen we een $g(x)$ bij $f(x)$. We willen nulpunten $p$ bepalen, dus gebruiken we $ f(p) = p^3 + 3p - 4 = 0 $. Bij deze functie hebben we verschillende mogelijkheden voor $g(x)$.
+					\begin{itemize}
+						\item $ p = \frac{4}{p^2+3} \implies p_{n+1}=\frac{4}{p_n^2 + 3} \implies g(p_n) = \frac{4}{p_n^2 + 3} \implies g(x) = \frac{4}{x^2 + 3}$. We zien dat dit netjes naar $1$ convergeert.
+						\item $ p_{n+1} = \frac{4-p_n^3}{3} \implies g(x) = \frac{4-x^3}{3} $. Dit voldoet niet aan stelling \ref{10-1}, want $ g(x) \not \in [0,2] $.
+						\item $ p_{n+1} = \frac{4-3p_n}{p_n^2} \implies g(x) = \frac{4-3x}{x^2}$. Dit divergeert! voor $ x \in [0,2] $ geldt namelijk dat $ g(x) \in (-\infty,\infty) $.
+					\end{itemize}
+				\end{voorbeeld}
+
+				\begin{theorem}
+					Als geldt $ \abs{g'(x)}< 1, x \in [a,b] $, dan is de convergentie van $g(x)$ onafhankelijk van $ p_0 $.
+				\end{theorem}
+
+			\subsubsection{Newton-Raphson iteratie}
+				We willen nulpunten ($ f(p)=0 $) bepalen. Er geldt
+				\[
+					0 = f(p) = f(p_n) + (p-p_n)f'(p_n) + \frac{1}{2}(p-p_n)^2 f''(\xi), \qquad \xi \text { tussen } p,p_n\,.
+				\]
+				Neem aan dat $ (p-p_n) \ll 1$. Dan geldt $ f(p_n) + (p-p_n)f'(p_n) \approx 0 \implies p_{n+1} \approx p_n - \frac{f(p_n)}{f'(p_n)} $. Dit noemen we \indx{Newton-Raphson}, en we noemen $ \frac{f(p_n)}{f'(p_n)} $ het \indx{residu}.
+
+				Kies een $ p_0 $ en bereken $ f(p_0), f'(p_0) \to p_1$ etc.
+
+				\begin{opm}
+					Vaste punt interaties garanderen \textbf{geen} convergentie. Wel zijn ze uitbreidbaar naar stelsels.
+				\end{opm}
+        \newpage
 	\section{College 11}
 		\subsection{Numerieke integratie}
 		We proberen $ \int_a^b f(x) \d x $ te benaderen.
 		\subsubsection{\indx{Rechthoekregel}}
-			De benadering 
-			\[ 
+			De benadering
+			\[
 				I_R = h \sum_{k=1}^{n} f(x_{k-1}).
 			 \]
 			 heet de \textit{rechthoekregel}, met een fout van $\mathcal{O}(h)$.
 		\subsubsection{\indx{Midpuntregel}}
 			Zoals de naam doet vermoeden nemen we hier het midden van $(x_{k-1},x_k)$ als steunpunt, zodat
-			\[ 
+			\[
 				I_M = h \sum_{k=1}^n f(\frac{x_{k-1}+x_k}{2}).
 			 \]
 			 De fout blijkt hier $\mathcal O (h^2)$.
-			 
+
 			 We concluderen hieruit dat de keuze van steunpunten de orde van nauwkeurigheid kan bepalen.
 		\subsubsection{\textit{Trapeziumregel}\index{Trapeziumregel (numerieke integratie)}}
-			Uit het eerste orde Lagrange-polynoom (oftewel een trapeziumregel) 
-			\[ 
+			Uit het eerste orde Lagrange-polynoom (oftewel een trapeziumregel)
+			\[
 				p(x) = \frac{x-x_{k-1}}{x_k - x_{k-1}}f(x_k) + \frac{x_k - x}{x_k-x_{k-1}}f(x_{k-1})
 			 \]
-			 volgt uiteindelijk de benadering 
-			 \[ 
+			 volgt uiteindelijk de benadering
+			 \[
 				 h \sum_{k=1}^n \frac{f(x_k)+f(x_{k-1})}{2}.
 			  \]
-			  
+
 			  Als we deze en de rechthoeksbenadering uitschrijven, zien we dat alleen de co\"efficienten voor $f(x_0)$ en $f(x_n)$ anders zijn. We concluderen dat ook de co\"efficienten bepalend kunnen zijn voor de orde van nauwkeurigheid.
-			  
+
 		\subsubsection{\indx{Gauss integratie}}
 			Gauss integratie rekent de optimale steunpunten uit, in plaats van ze vantevoren te kiezen.
-			
+
 			Voor het gemak nemen we $x_{k-1}=-1$, $\frac{x_{k-1}+x_k}{2}=0$ en $x_k=1$.
-			Dan is 
-			\[ 
+			Dan is
+			\[
 				\int_{-1}^1 f(x) \d x
 			 \]
 			 te benaderen met
@@ -832,10 +879,10 @@
 				 C_0 f(x_0) + C_1 f(x_1)
 			  $
 			  dat dus vier onbekenden bevat.
-			  
+
 			  We introduceren vier testfuncties, $1,x,x^2,x^3$. We eisen dat $C_0 f(x_0) + C_1 f(x_1)$ exact is voor alle vier de testvergelijkingen. Nu is met behulp van de tabel
-			  
-			  \[ 
+
+			  \[
 				  \begin{array}{c|ccc}
 				  f(x) & \int_{-1}^1 f(x)\d x & \text {eis} & C_0 f(x_0) + C_1 f(x_1) \\ \hline
 				  1 & 2 & = & C_0 + C_1 \\
@@ -845,10 +892,10 @@
 				  \end{array}
 			   \]
 			   uit te rekenen dat $C_0=C_1=1$ en $-x_0 = x_1 = \frac{1}{\sqrt{3}}$. Het blijkt dat deze methode $\mathcal{O} (h^4)$ is.
-			   
+
 			   \subsection{Effect van verstoringen}
 			   Uit het analyseren van verstoringen blijkt dat het niet verstandig is om $h$ zodanig te kiezen dat $\frac{1}{2}h \max \abs{f'(\xi)} \ll \epsilon_{max}, \xi \in (a,b),$ te kiezen, dat is verspilling van rekenkracht.
-			 
+
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
