@@ -633,7 +633,7 @@
 		   
 		   We zien ook dat het gevaarlijk is als $\lambda_{\min}=0$.
 		   
-		   De stabiliteitsanalyse gaan analoog aan de problemen met een beginvoorwaarde.
+		   De stabiliteitsanalyse gaat analoog aan de problemen met een beginvoorwaarde.
 		   
 		   \subsubsection{\textit{Stelling van Gerschgorin}\index{Gerschgorin, stelling van}}
 		   Om bijvoorbeeld te laten zien dat er geen eigenwaarde nul is bij een grote matrix, kan deze stelling van pas komen. 
@@ -752,6 +752,65 @@
 	\section{College 10}
 
 
+	\section{College 11}
+		\subsection{Numerieke integratie}
+		We proberen $ \int_a^b f(x) \d x $ te benaderen.
+		\subsubsection{\indx{Rechthoekregel}}
+			De benadering 
+			\[ 
+				I_R = h \sum_{k=1}^{n} f(x_{k-1}).
+			 \]
+			 heet de \textit{rechthoekregel}, met een fout van $\mathcal{O}(h)$.
+		\subsubsection{\indx{Midpuntregel}}
+			Zoals de naam doet vermoeden nemen we hier het midden van $(x_{k-1},x_k)$ als steunpunt, zodat
+			\[ 
+				I_M = h \sum_{k=1}^n f(\frac{x_{k-1}+x_k}{2}).
+			 \]
+			 De fout blijkt hier $\mathcal O (h^2)$.
+			 
+			 We concluderen hieruit dat de keuze van steunpunten de orde van nauwkeurigheid kan bepalen.
+		\subsubsection{\textit{Trapeziumregel}\index{Trapeziumregel (numerieke integratie)}}
+			Uit het eerste orde Lagrange-polynoom (oftewel een trapeziumregel) 
+			\[ 
+				p(x) = \frac{x-x_{k-1}}{x_k - x_{k-1}}f(x_k) + \frac{x_k - x}{x_k-x_{k-1}}f(x_{k-1})
+			 \]
+			 volgt uiteindelijk de benadering 
+			 \[ 
+				 h \sum_{k=1}^n \frac{f(x_k)+f(x_{k-1})}{2}.
+			  \]
+			  
+			  Als we deze en de rechthoeksbenadering uitschrijven, zien we dat alleen de co\"efficienten foor $f(x_0)$ en $f(x_n)$ anders zijn. We concluderen dat ook de co\"efficienten bepalend kunnen zijn voor de orde.
+			  
+		\subsubsection{Gauss integratie}
+			Gauss integratie rekent de optimale steunpunten uit, in plaats van ze vantevoren te kiezen.
+			
+			Voor het gemak nemen we $x_{k-1}=-1$, $\frac{x_{k-1}+x_k}{2}=0$ en $x_k=1$.
+			Dan is 
+			\[ 
+				\int_{-1}^1 f(x) \d x
+			 \]
+			 te benaderen met
+			 $
+				 C_0 f(x_0) + C_1 f(x_1)
+			  $
+			  dat dus vier onbekenden bevat.
+			  
+			  We introduceren vier testfuncties, $1,x,x^2,x^3$. We eisen dat $C_0 f(x_0) + C_1 f(x_1)$ exact is voor alle vier de testvergelijkingen. Nu is met behulp van de tabel
+			  
+			  \[ 
+				  \begin{array}{c|ccc}
+				  f(x) & \int_{-1}^1 f(x)\d x & \text {eis} & C_0 f(x_0) + C_1 f(x_1) \\ \hline
+				  1 & 2 & = & C_0 + C_1 \\
+				  x & 0 & = & C_0 x_0 + C_1 x_1 \\
+				  x^2 & 2/3 & = & C_0 x_0^2 + C_1 x_1^2 \\
+				  x^3 & 0 & = & C_0 x_0^3 + C_1 x_1^3
+				  \end{array}
+			   \]
+			   uit te rekenen dat $C_0=C_1=1$ en $-x_0 = x_1 = \frac{1}{\sqrt{3}}$. Het blijkt dat deze methode $\mathcal{O} (h^4)$ is.
+			   
+			   \subsection{Effect van verstoringen}
+			   Uit het analyseren van verstoringen blijkt dat het niet verstandig is om $h$ zodanig te kiezen dat $\frac{1}{2}h \max \abs{f'(\xi)} \ll \epsilon_{max}, \xi \in (a,b),$ te kiezen, dat is verspilling van rekenkracht.
+			 
 	\phantomsection
 	\newpage
 	\addcontentsline{toc}{chapter}{Index} 
