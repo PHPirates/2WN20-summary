@@ -665,17 +665,17 @@
 	\section{College 8}
 		\subsection{Vervolg tweepuntsrandwaardeproblemen}
 			Zij $ -\frac{d^2 y}{dx^2} + q(x)y = f(x), x\in [0,1]$ een tweede orde differentiaalvergelijking met beginwaarden $ y(0)=\alpha, y(1)=\beta $. De tweede orde discrete vergelijking ziet er als volgt uit, met $ y(0) = y_0, y(1) = y_{n+1} $.
-			\[ 
+			\[
 				-\frac{w_{j+1}-2w_j+w_{j-1}}{h^2} + q_j w_j = f_j\,, \qquad j=1\dots n\,.
 			\]
-			Dit kunnen we schrijven als $ A\w = \f $, oftewel 
+			Dit kunnen we schrijven als $ A\w = \f $, oftewel
 			\[
 				\left[ -\frac{1}{h^2} \begin{pmatrix}
 					-2 & 1 & & &\\
 					1 & -2 & 1 & & \\
 					& \ddots & \ddots & \ddots & \\
 					& & 1 & -2 & 1 \\
-					& & & 1 & -2  
+					& & & 1 & -2
 				\end{pmatrix} + \begin{pmatrix}
 					q_1 & & \\
 					& \ddots & \\
@@ -692,21 +692,21 @@
 					f_n + \frac{\beta}{h^2}
 				\end{pmatrix}\,.
 			\]
-			Voor de exacte oplossingsvector $\y$ en de discrete oplossingsvector $\w$ hebben we 
+			Voor de exacte oplossingsvector $\y$ en de discrete oplossingsvector $\w$ hebben we
 			\begin{align*}
 				\y &\xrightarrow{A} A\y \\
 				\w &\xrightarrow{A} A\w\,.
 			\end{align*}
 			Hetgeen voor de pijl noemen we de \indx{oplossingsruimte}, hier bekijken we de globale discretisatiefout $ \e = \y - \w $. Hetgeen na de pijl noemen we de \indx{operatorruimte}, hier bekijken we de lokale afbreekfout $ \bep = A(\y -\w) $. Hieruit volgt $ \e = A^{-1}\bep \implies ||\e|| \le ||A^{-1}||\cdot||\bep||$.
-		
+
 			Nu vervangen we de Dirichlet randvoorwaarde $y(1)=\beta$ door de Neumann randvoorwaarde $y'(1)=0$. Dit is vervelender, maar een oplossing is het punt $n+1$ betrekken in onze discrete vergelijking. Dit doen we door een virtueel punt te introduceren en gebruik te maken van de tweede orde centrale discretisatie voor $ y'(1)=0 $. Dan volgt als discrete $ (n+1)^e $ vergelijking $ -2\frac{-w_{n+1}+w_n}{h^2} + q_{n+1}w_{n+1} = f_{n+1} $. Deze kunnen we toevoegen aan het stelsel, dit geeft
-			\[ 
+			\[
 				\left[ -\frac{1}{h^2} \begin{pmatrix}
 				-2 & 1 & & &\\
 				1 & -2 & 1 & & \\
 				& \ddots & \ddots & \ddots & \\
 				& & 1 & -2 & 1 \\
-				& & & 2 & -2  
+				& & & 2 & -2
 				\end{pmatrix} + \begin{pmatrix}
 				q_1 & & \\
 				& \ddots & \\
@@ -729,18 +729,18 @@
 			\begin{opm}
 				Als we Neumann randvoorwaarden bekijken voor links en rechts, oftewel $ y'(0) = 0, y'(1) = 0 $ dan is de oplossing tot op een constante nauwkeurig bepaald en bestaat er geen unieke oplossing.
 			\end{opm}
-			
+
 			\subsection{Convectie-diffusievergelijking}
-				We beschouwen de testvergelijking $ -y'' + vy' = 0, x\in [0,1] $, met randvoorwaarden $ y(0) = \alpha, y(1)=\beta $. 
+				We beschouwen de testvergelijking $ -y'' + vy' = 0, x\in [0,1] $, met randvoorwaarden $ y(0) = \alpha, y(1)=\beta $.
 				\begin{opm}
 					Convectie heeft een richtingsvoorkeur, terwijl diffusie alle kanten op gaat. We hebben hier ``illegaal'' randvoorwaarden (dus ook $ y(1) = \beta $) opgelegd aan convectie, formeel mag dit niet.
 				\end{opm}
 				Beter is om \indx{upwind discretisatie} te gebruiken, en alleen gebruik te maken van informatie van links. Dit geeft $ vy_j' \to v \frac{w_j-w_{j-1}}{h} $. Als discrete vergelijking hebben we nu
-				\[ 
+				\[
 					- \frac{w_{j+1}-2w_j + w_{j-1}}{h^2} + v \frac{w_j-w_{j-1}}{h} = 0\,.
 				\]
-				Dit vermenigvuldigen met $ h^2 $ geeft $ -w_{j+1}+2w_j-w_{j-1}+vh(w_j-w_{j-1}) = 0 $. In matrixvorm is dit 
-				\[ 
+				Dit vermenigvuldigen met $ h^2 $ geeft $ -w_{j+1}+2w_j-w_{j-1}+vh(w_j-w_{j-1}) = 0 $. In matrixvorm is dit
+				\[
 				\begin{pmatrix}
 					2+vh & -1 & & \\
 					-1-vh & 2+vh & -1 & \\
@@ -754,38 +754,94 @@
 				\end{pmatrix}
 				\]
 				Uit de stelling van Gershgorin volgt verder dat de gewone centrale discretisatie veilig is voor mogelijke nul-eigenwaarden als $vh<2$, $vh\ge 2$ is dus gevaarlijk. Bij upwind discretisatie is er echter altijd een kans op een nul-eigenwaarde.
-				
+
+
+	\newpage
 	\section{College 9}
 	
 	\newpage
+	\subsection{Numerieke methoden voor \indx{begin-randwaardeproblemen}}
+		We beschouwen een \indx{instationaire vergelijking}. Deze heeft een integraalvorm en differentiaalvorm, waarbij de laatste hogere eisen aan differentieerbaarheid stelt.
+
+		Deze vergelijking is van de vorm ($y=y(x,t)$)
+		\[
+			\frac{\partial y}{\partial t} = \frac{\partial^2 y}{\partial x^2} \,,
+		 \]
+		 met de voor de linkerkant vereiste beginvoorwaarde $y(x,t=0)=y_0(x)$ en de voor de rechterkant vereiste randvoorwaarden $y(x=0,t)=y_l (t) ,\ y(x=1,t)=y_r(t)$.
+		 Merk op dat dit \textbf{volledig continu} is.
+
+		 Nu gaat we in twee stappen discretiseren,
+		 \begin{itemize}
+		 	\item in de $x$-richting (hoofdstuk 7)
+		 	\item in de tijd (hoofdstuk 6).
+		 \end{itemize}
+
+		 In de eerste stap maken we een \textbf{semi-discrete} vergelijking
+		 \[
+			 \frac{\d u_i}{\d t} = \frac{u_{i-1}-2u_i+u_{i+1}}{h^2} \quad u_i=u_i(t).
+		  \]
+		  Nu zijn de randwaarden $u_{i=0}(t)=y_l(t)$ en $u_{i=n+1}=y_r(t)$, en de beginwaarde $u_i(t=0) = y_0 (t)$.
+
+		  Dit is te schrijven in vectorvorm als
+		  \[
+			  \frac{\d \u }{\d t} = K \u + \r
+		   \]
+		   waarbij
+		   \[
+			   K =\frac{1}{h^2} \begin{pmatrix}
+			   -2 & 1 & & &\\
+			   1 & -2 & 1 & & \\
+			   & \ddots & \ddots & \ddots & \\
+			   & & 1 & -2 & 1 \\
+			   & & & 1 & -2
+			   \end{pmatrix},\ \r =
+			   \vvec{y_l (t) /h^2 \\
+			   0 \\
+			   \vdots \\
+				0 \\
+				y_r (t) /h^2}, \ \u = \vvec{u_1(t) \\ u_2(t) \\ \vdots \\ u_n(t)}.
+		    \]
+		    Om nu een \textbf{volledig discrete} vergelijking te krijgen, gebruiken we bijvoorbeeld Voorwaarts Euler, zodat
+		    \[
+			    \frac{w_i^{j+1}-w_i^j}{\Delta t} = \frac{w_{i-1}^j -2w_i^j +w_{i+1}^j}{h^2} + r_i^j \,.
+		     \]
+		     Hieruit zien we het \indx{differentiemolecuul} of \indx{stencil} van Voorwaarts Euler, waarin we het roosterpunt $w_i^{j+1}$ uitrekenen aan de hand van drie roosterpunten daaronder: $w_{i-1}^j,\ w_i^j$ en $w_{i+1}^j$.
+
+		     \subsubsection{Stabiliteitseis $\Delta t$}
+			     We hebben $ \frac{\d \y }{\d t} = A\y + \g (t) $. Er volgt $ \Delta t \le \frac{2}{\lambda_{\max}} $, waarbij $\lambda_{\max}$ de grootste eigenwaarde is van $A$. We schatten $\lambda_{\max}$ met Gershgorin, hieruit volgt $ \lambda_{\max} \le \frac{4}{h^2} $. Dit geeft $ \Delta t \le \frac{2}{\frac{4}{h^2}} = \frac{h^2}{2} $. We zien dat er voor Voorwaarts Euler strenge stabiliteitseisen gelden ($ h \to \frac{h}{2} \implies \Delta t \to \frac{\Delta t}{4} $), oftewel VE is duur. Maar wel eenvoudig.
+
+			     \textbf{Achterwaarts Euler.} Als we voor Achterwaarts Euler hetzelfde doen, zien we dat AE voor $ \Delta t $ onvoorwaardelijk stabiel is.
+
+		    %todo not sure what the rest is about?
+
 	\section{College 10}
 		\subsection{Bepaling nulpunten niet-lineaire vergelijkingen}
 			Zij $f(x)$ een functie. Stel $ f(p) = 0 $, dan noemen we $p$ een \indx{nulpunt} van de functie. Om nulpunten te bepalen/benaderen kunnen we de volgende methodes gebruiken.
 			\begin{itemize}
 				\item Bisectiemethode
-				\item Vast punt 
+				\item Vast punt
 				\item Newton-Rhapson iteratie
 			\end{itemize}
 			\subsubsection{Bisectiemethode \textmd{(Gebaseerd op de tussenwaardenstelling)}}
-				Zij $f(x)$ een functie, continu op $ [a,b] $. Als $ f(a)\cdot f(b) < 0 $, dan volgt uit de tussenwaardenstelling dat er een $p \in (a,b)$ is zodanig dat $ f(p)=0 $. 
-				
-				We schatten $p_1=\frac{1}{2}(a+b)$. Dan schatten we 
-				\[ 
+				Zij $f(x)$ een functie, continu op $ [a,b] $. Als $ f(a)\cdot f(b) < 0 $, dan volgt uit de tussenwaardenstelling dat er een $p \in (a,b)$ is zodanig dat $ f(p)=0 $.
+
+				We schatten $p_1=\frac{1}{2}(a+b)$. Dan schatten we
+				\[
 					\begin{cases}
 						p_2 = \frac{1}{2}(a+p_1) & \text{als } f(a)\cdot f(p_1)<0 \\
 						p_2 = \frac{1}{2}(p_1+b) & \text{als } f(p_1)\cdot f(b)<0\,.
 					\end{cases}
 				\]
-				Dit zetten we door, en hiermee sluiten we een nulpunt $p$ in met een vooraf bepaalde nauwkeurigheid. 
-				
+				Dit zetten we door, en hiermee sluiten we een nulpunt $p$ in met een vooraf bepaalde nauwkeurigheid.
+
 				\begin{theorem}
-					Zij $f$ een functie continu op $[a,b]$ en $ f(a)\cdot f(b) <0 $. Dan geldt 
-					\[ 
+					Zij $f$ een functie continu op $[a,b]$ en $ f(a)\cdot f(b) <0 $. Dan geldt
+					\[
 						\abs{p_n-p} \le \frac{b-a}{2^{n+1}}\,.
 					\]
 				\end{theorem}
 				Met deze stelling kunnen we vooraf berekenen hoe groot $n$ moet zijn om bij een gekozen $a, b$ een voorgeschreven nauwkeurigheid $ \abs{p_n-p} $ te bereiken.
-				
+
 				\begin{opm}
 					De bisectiemethode is niet eenvoudig uitbreidbaar naar multi-D.
 				\end{opm}
@@ -795,7 +851,7 @@
 				\[
 					g(p)=p\,.
 				\]
-				Er is altijd een functie $g(x)$ te vinden zodanig dat een vast punt van $g$ een nulpunt van $f$ is, bijvoorbeeld $g(x)=x-cf(x),\ c\ne 0$. 
+				Er is altijd een functie $g(x)$ te vinden zodanig dat een vast punt van $g$ een nulpunt van $f$ is, bijvoorbeeld $g(x)=x-cf(x),\ c\ne 0$.
 				\begin{theonum}\label{10-1}
 					Zij $g(x)$ continu op $ [a,b] $, en $ g(x) \in [a,b], x \in [a,b] $. Dan is er tenminste \'e\'en vast punt $ p \in [a,b] $.
 				\end{theonum}
