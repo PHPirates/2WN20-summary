@@ -749,6 +749,7 @@
 				
 	\section{College 9}
 	
+	\newpage
 	\section{College 10}
 		\subsection{Bepaling nulpunten niet-lineaire vergelijkingen}
 			Zij $f(x)$ een functie. Stel $ f(p) = 0 $, dan noemen we $p$ een \indx{nulpunt} van de functie. Om nulpunten te bepalen/benaderen kunnen we de volgende methodes gebruiken.
@@ -780,7 +781,53 @@
 				\begin{opm}
 					De bisectiemethode is niet eenvoudig uitbreidbaar naar multi-D.
 				\end{opm}
-
+				
+			\subsubsection{Vast punt (fixed point)}
+				Een punt $p$ heet een \indx{vast punt} als geldt
+				\[ 
+					g(p)=p\,.
+				\]
+				\begin{theonum}\label{10-1}
+					Zij $g(x)$ continu op $ [a,b] $, en $ g(x) \in [a,b], x \in [a,b] $. Dan is er tenminste \'e\'en vast punt $ p \in [a,b] $.
+				\end{theonum}
+				
+				\begin{theonum}[Gevolg van stelling \ref{10-1}]\label{10-2}
+					Als $ \abs{g'(x)} < 1 $, dan is $p$ een uniek vast punt.
+				\end{theonum}
+				We kunnen punten ook beschrijven door middel van \indx{iteraties}. Als een punt een vast punt is geldt er
+				\[ 
+					p_{n+1} = g(p_n), \qquad n=0,1,\dotsc,N\,.
+				\]
+				\begin{theorem}
+					Als geldt $ \lim_{n \to \infty}p_n = p^* $, dan is $p^*$ een vast punt van $g$.
+				\end{theorem}
+				Dus als $ p_{n+1} = g(p_n) $ convergeert naar een punt $p^*$, dan is $ p^*=g(p^*) $ een vast punt.
+				
+				\begin{voorbeeld}
+					We beschouwen $ f(x) = x^3 + 3x - 4, x \in [0,2] $. We weten dat $p=1$ een nulpunt is, er geldt namelijk $ f(p=1)=0 $. Nu kiezen we een $g(x)$ bij $f(x)$. We willen nulpunten $p$ bepalen, dus gebruiken we $ f(p) = p^3 + 3p - 4 = 0 $. Bij deze functie hebben we verschillende mogelijkheden voor $g(x)$.
+					\begin{itemize}
+						\item $ p = \frac{4}{p^2+3} \implies p_{n+1}=\frac{4}{p_n^2 + 3} \implies g(p_n) = \frac{4}{p_n^2 + 3} \implies g(x) = \frac{4}{x^2 + 3}$. We zien dat dit netjes naar $1$ convergeert.
+						\item $ p_{n+1} = \frac{4-p_n^3}{3} \implies g(x) = \frac{4-x^3}{3} $. Dit voldoet niet aan stelling \ref{10-1}, want $ g(x) \not \in [0,2] $.
+						\item $ p_{n+1} = \frac{4-3p_n}{p_n^2} \implies g(x) = \frac{4-3x}{x^2}$. Dit divergeert! voor $ x \in [0,2] $ geldt namelijk dat $ g(x) \in (-\infty,\infty) $.
+					\end{itemize}
+				\end{voorbeeld}
+				
+				\begin{theorem}
+					Als geldt $ \abs{g'(x)}< 1, x \in [a,b] $, dan is de convergentie van $g(x)$ onafhankelijk van $ p_0 $. 
+				\end{theorem}
+				
+			\subsubsection{Newton-Raphson iteratie}
+				We willen nulpunten ($ f(p)=0 $) bepalen. Er geldt
+				\[ 
+					0 = f(p) = f(p_n) + (p-p_n)f'(p_n) + \frac{1}{2}(p-p_n)^2 f''(\xi), \qquad \xi \text { tussen } p,p_n\,.
+				\]
+				Neem aan dat $ (p-p_n) \ll 1$. Dan geldt $ f(p_n) + (p-p_n)f'(p_n) \approx 0 \implies p_{n+1} \approx p_n - \frac{f(p_n)}{f'(p_n)} $. Dit noemen we \indx{Newton-Raphson}, en we noemen $ \frac{f(p_n)}{f'(p_n)} $ het \indx{residu}. 
+				
+				Kies een $ p_0 $ en bereken $ f(p_0), f'(p_0) \to p_1$ etc.
+				
+				\begin{opm}
+					Vaste punt interaties garanderen \textbf{geen} convergentie. Wel zijn ze uitbreidbaar naar stelsels.
+				\end{opm}
 
 	\phantomsection
 	\newpage
